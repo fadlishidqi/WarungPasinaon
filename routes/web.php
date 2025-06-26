@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
+use App\Http\Controllers\KegiatanController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -13,10 +14,8 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-// Route untuk halaman lainnya (sementara redirect ke home)
-Route::get('/kegiatan', function () {
-    return redirect('/');
-});
+Route::get('/kegiatan', [KegiatanController::class, 'index'])->name('kegiatan.index');
+Route::get('/kegiatan/{kegiatan}', [KegiatanController::class, 'show'])->name('kegiatan.show');
 
 Route::get('/buku-digital', function () {
     return redirect('/');
