@@ -5,7 +5,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-// Route utama mengarah ke Home
+// Route utama mengarah ke Home (one-page)
 Route::get('/', function () {
     return Inertia::render('Home', [
         'canLogin' => Route::has('login'),
@@ -14,10 +14,6 @@ Route::get('/', function () {
 })->name('home');
 
 // Route untuk halaman lainnya (sementara redirect ke home)
-Route::get('/about', function () {
-    return redirect('/');
-});
-
 Route::get('/kegiatan', function () {
     return redirect('/');
 });
