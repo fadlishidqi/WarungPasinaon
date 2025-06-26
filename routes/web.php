@@ -5,13 +5,29 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+// Route utama mengarah ke Home
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
+    return Inertia::render('Home', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
     ]);
+})->name('home');
+
+// Route untuk halaman lainnya (sementara redirect ke home)
+Route::get('/about', function () {
+    return redirect('/');
+});
+
+Route::get('/kegiatan', function () {
+    return redirect('/');
+});
+
+Route::get('/buku-digital', function () {
+    return redirect('/');
+});
+
+Route::get('/ranking', function () {
+    return redirect('/');
 });
 
 Route::get('/dashboard', function () {
