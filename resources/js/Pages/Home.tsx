@@ -35,13 +35,13 @@ export default function Home({ auth }: PageProps) {
         }
     ];
 
-    // Auto slide effect setiap 3 detik
+    
     useEffect(() => {
         const timer = setInterval(() => {
             setCurrentSlide((prevSlide) => 
                 prevSlide === documentationImages.length - 1 ? 0 : prevSlide + 1
             );
-        }, 3000);
+        }, 4000);
 
         return () => clearInterval(timer);
     }, [documentationImages.length]);
@@ -65,7 +65,7 @@ export default function Home({ auth }: PageProps) {
             <div className="min-h-screen bg-gray-50">
                 <Navbar />
 
-                {/* Hero Section - TIDAK DIUBAH */}
+                {/* Hero Section */}
                 <section id="home">
                     <main className="max-w-7xl mx-auto px-6 lg:px-8 py-12 lg:py-20">
                         <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -76,54 +76,60 @@ export default function Home({ auth }: PageProps) {
                                         Selamat datang
                                         <br />
                                         di Warung{' '}
-                                        <span className="bg-gradient-to-r from-pink-400 to-red-400 bg-clip-text text-transparent">
-                                            Pasinaon!
+                                        <span className="relative">
+                                            <span className="relative z-10 text-gray-900">Pasinaon!</span>
+                                            <span className="absolute -bottom-0.5 left-0 right-0 h-12 bg-gradient-to-r from-pink-200 via-rose-200 to-red-200 rounded-lg transform -rotate-1 -z-0"></span>
                                         </span>
                                     </h1>
                                     
                                     <p className="text-lg text-gray-600 leading-relaxed max-w-md">
-                                        TBM Warung Pasinaon bukanlah toko buku atau lembaga profit, melainkan ruang belajar gratis bagi masyarakat. Terletak di Dusun Talun RT 07 RW VII, Bergas Lor, Kecamatan Bergas, Ungaran, tempat ini hadir sebagai wadah pendidikan alternatif yang terbuka untuk semua kalangan.
+                                        TBM Warung Pasinaon bukanlah toko buku atau lembaga profit, melainkan ruang belajar gratis bagi masyarakat. Terletak di Dusun Talun RT 07 RW VII, Bergas Lor, Kecamatan Bergas, Ungaran, tempat ini hadir sebagai wadah pendidikan literasi yang terbuka untuk semua kalangan.
                                     </p>
                                 </div>
 
                                 {/* Stats Cards */}
-                                <div className="grid grid-cols-3 gap-4 pt-8">
-                                    <div className="bg-white rounded-2xl p-6 text-center shadow-sm border border-gray-100">
-                                        <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-3">
-                                            <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                                            </svg>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 pt-2">
+                                    <div className="bg-white rounded-2xl p-6 sm:p-8 text-center shadow-sm border border-gray-100">
+                                        <div className="w-14 h-14 sm:w-16 sm:h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 overflow-hidden">
+                                            <img
+                                                src="https://firebasestorage.googleapis.com/v0/b/seputipy.appspot.com/o/covers%2Flogokabsmg.png?alt=media"
+                                                alt="Logo Kabupaten Semarang"
+                                                className="w-10 h-10 sm:w-12 sm:h-12 object-contain"
+                                            />
                                         </div>
-                                        <h3 className="font-bold text-gray-900 text-sm">Platform</h3>
-                                        <p className="text-xs text-gray-600 mt-1">Digital</p>
+                                        <h3 className="font-bold text-gray-900 text-sm sm:text-base">Kabupaten</h3>
+                                        <p className="text-xs sm:text-sm text-gray-600 mt-1">Semarang</p>
                                     </div>
-
-                                    <div className="bg-white rounded-2xl p-6 text-center shadow-sm border border-gray-100">
-                                        <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-3">
-                                            <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                    
+                                    <div className="bg-white rounded-2xl p-6 sm:p-8 text-center shadow-sm border border-gray-100">
+                                        <div className="w-14 h-14 sm:w-16 sm:h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                                            <svg className="w-6 h-6 sm:w-8 sm:h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                                             </svg>
                                         </div>
-                                        <h3 className="font-bold text-gray-900 text-sm">1000+ Siswa</h3>
-                                        <p className="text-xs text-gray-600 mt-1">Aktif</p>
+                                        <h3 className="font-bold text-gray-900 text-sm sm:text-base">TBM</h3>
+                                        <p className="text-xs sm:text-sm text-gray-600 mt-1">Taman Baca Masyarakat</p>
                                     </div>
-
-                                    <div className="bg-white rounded-2xl p-6 text-center shadow-sm border border-gray-100">
-                                        <div className="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center mx-auto mb-3">
-                                            <svg className="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+                                    
+                                    <div className="bg-white rounded-2xl p-6 sm:p-8 text-center shadow-sm border border-gray-100 sm:col-span-2 lg:col-span-1">
+                                        <div className="w-14 h-14 sm:w-16 sm:h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                                            <svg className="w-6 h-6 sm:w-8 sm:h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                                             </svg>
                                         </div>
-                                        <h3 className="font-bold text-gray-900 text-sm">95% Rating</h3>
-                                        <p className="text-xs text-gray-600 mt-1">Kepuasan</p>
+                                        <h3 className="font-bold text-gray-900 text-sm sm:text-base">Literasi</h3>
+                                        <p className="text-xs sm:text-sm text-gray-600 mt-1">Pendidikan Digital</p>
                                     </div>
                                 </div>
 
                                 {/* CTA Buttons */}
                                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                                    <button className="bg-gradient-to-r from-pink-400 to-red-400 text-white px-8 py-4 rounded-2xl font-semibold text-lg hover:from-pink-500 hover:to-red-500 transition duration-300 transform hover:scale-105 shadow-lg">
+                                    <Link 
+                                        href="/buku-digital"
+                                        className="bg-gradient-to-r from-pink-400 to-red-400 text-white px-8 py-4 rounded-2xl font-semibold text-lg hover:from-pink-500 hover:to-red-500 transition duration-300 transform hover:scale-105 shadow-lg text-center"
+                                    >
                                         Mulai Belajar
-                                    </button>
+                                    </Link>
                                     <button 
                                         onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
                                         className="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-2xl font-semibold text-lg hover:border-gray-400 hover:bg-gray-50 transition duration-300"
@@ -133,7 +139,7 @@ export default function Home({ auth }: PageProps) {
                                 </div>
                             </div>
 
-                            {/* Right Content - Image Grid - TIDAK DIUBAH */}
+                            {/* Right Content */}
                             <div className="space-y-4">
                                 {/* Top Image */}
                                 <div className="rounded-3xl overflow-hidden shadow-lg">
@@ -165,69 +171,98 @@ export default function Home({ auth }: PageProps) {
                     </main>
                 </section>
 
-                {/* About Section - BARU DITAMBAHKAN */}
+                {/* About Section */}
                 <section id="about" className="bg-white">
                     <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20">
                         {/* About Hero */}
-                        <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
+                        <div className="grid lg:grid-cols-2 gap-12 items-center mb-20 relative overflow-hidden">
+                            {/* Background Decorative Elements */}
+                            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                                {/* Grid Lines */}
+                                <div className="absolute inset-0 opacity-10">
+                                    <div className="grid grid-cols-8 h-full gap-8">
+                                        {[...Array(8)].map((_, i) => (
+                                            <div key={i} className="border-l border-gray-300"></div>
+                                        ))}
+                                    </div>
+                                </div>
+                                
+                                {/* Floating Decorative Elements */}
+                                <div className="absolute top-32 right-10 w-12 h-12 bg-pink-200 rounded-full opacity-70"></div>
+                                <div className="absolute top-2 left-1/4 w-8 h-8 bg-green-200 rounded-full opacity-80"></div>
+                                <div className="absolute bottom-20 right-1/2 w-14 h-14 bg-purple-200 rounded-full opacity-60"></div>
+                                <div className="absolute top-1/2 right-10 w-10 h-10 bg-orange-200 rounded-full opacity-70"></div>
+                                
+                            </div>
+
                             {/* Left Content */}
-                            <div className="space-y-8">
+                            <div className="space-y-8 relative z-10">
                                 <div className="space-y-6">
                                     <h2 className="text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                                        Tentang{' '}
-                                        <span className="bg-gradient-to-r from-pink-400 to-red-400 bg-clip-text text-transparent">
-                                            Warung Pasinaon
+                                        {/* Desktop Layout */}
+                                        <span className="hidden lg:inline">
+                                            Tentang
+                                            <br />
+                                            <span className="relative">
+                                                <span className="relative z-10 text-gray-900">Warung Pasinaon</span>
+                                                <span className="absolute -bottom-0.5 left-0 right-0 h-8 lg:h-12 bg-gradient-to-r from-blue-200 via-blue-100 to-white-200 rounded-lg transform -rotate-1 -z-0"></span>
+                                            </span>
+                                        </span>
+                                        
+                                        {/* Mobile Layout */}
+                                        <span className="lg:hidden">
+                                            Tentang Warung{' '}
+                                            <span className="relative">
+                                                <span className="relative z-10 text-gray-900">Pasinaon</span>
+                                                <span className="absolute -bottom-0.5 left-0 right-0 h-6 bg-gradient-to-r from-blue-200 via-blue-100 to-white-200 rounded-lg transform -rotate-1 -z-0"></span>
+                                            </span>
                                         </span>
                                     </h2>
                                     
-                                    <p className="text-lg text-gray-600 leading-relaxed">
+                                    <p className="text-lg text-gray-600 leading-relaxed relative z-10">
                                         Warung Pasinaon adalah platform pembelajaran digital yang didedikasikan untuk menyediakan akses pendidikan berkualitas bagi semua kalangan. Kami berkomitmen menghadirkan inovasi dalam dunia pendidikan Indonesia melalui teknologi dan konten pembelajaran yang interaktif.
                                     </p>
 
-                                    <p className="text-lg text-gray-600 leading-relaxed">
+                                    <p className="text-lg text-gray-600 leading-relaxed relative z-10">
                                         Dengan pengalaman bertahun-tahun di bidang pendidikan, kami memahami kebutuhan pembelajaran modern yang efektif dan menyenangkan. Platform kami dirancang untuk memfasilitasi proses belajar mengajar yang lebih engaging dan hasil yang optimal.
                                     </p>
                                 </div>
                             </div>
 
-                            {/* Right Content - Stats */}
-                            <div className="relative">
-                                <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl h-96 flex items-center justify-center shadow-xl overflow-hidden">
+                            {/* Right Content */}
+                            <div className="relative z-10 flex justify-center">
+                                <div className="relative">
+                                    {/* Main Photo Container */}
                                     <div className="relative">
-                                        <div className="bg-white rounded-2xl p-8 shadow-lg">
-                                            <div className="flex items-center space-x-4 mb-6">
-                                                <div className="w-16 h-16 bg-gradient-to-r from-pink-400 to-red-400 rounded-full flex items-center justify-center">
-                                                    <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                                        <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"/>
-                                                    </svg>
-                                                </div>
-                                                <div>
-                                                    <h3 className="text-xl font-bold text-gray-900">Warung Pasinaon</h3>
-                                                    <p className="text-gray-600">Platform Pembelajaran Digital</p>
-                                                </div>
-                                            </div>
-                                            <div className="space-y-3">
-                                                <div className="flex justify-between items-center">
-                                                    <span className="text-sm text-gray-600">Konten Pembelajaran</span>
-                                                    <span className="text-sm font-semibold text-gray-900">1000+</span>
-                                                </div>
-                                                <div className="flex justify-between items-center">
-                                                    <span className="text-sm text-gray-600">Pengguna Aktif</span>
-                                                    <span className="text-sm font-semibold text-gray-900">5000+</span>
-                                                </div>
-                                                <div className="flex justify-between items-center">
-                                                    <span className="text-sm text-gray-600">Rating</span>
-                                                    <div className="flex items-center">
-                                                        <span className="text-sm font-semibold text-gray-900">4.8</span>
-                                                        <div className="flex ml-2">
-                                                            {[...Array(5)].map((_, i) => (
-                                                                <svg key={i} className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                                                                </svg>
-                                                            ))}
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                        <div className="w-80 h-96 bg-gradient-to-br from-blue-100 to-white-100 rounded-3xl overflow-hidden shadow-2xl">
+                                            <img 
+                                                src="https://firebasestorage.googleapis.com/v0/b/seputipy.appspot.com/o/covers%2FAssetTirta1.png?alt=media"
+                                                alt="Bu Tirta Nursari - Pendiri Warung Pasinaon"
+                                                className="w-full h-full object-cover"
+                                            />
+                                        </div>
+                                        
+                                        {/* Floating Elements around Photo */}
+                                        <div className="absolute -top-4 -left-4 w-12 h-12 bg-yellow-300 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
+                                            📚
+                                        </div>
+                                        <div className="absolute -top-2 -right-6 w-10 h-10 bg-pink-300 rounded-full flex items-center justify-center text-white shadow-lg">
+                                            ✨
+                                        </div>
+                                        <div className="absolute -bottom-4 -left-6 w-14 h-14 bg-blue-300 rounded-full flex items-center justify-center text-white text-xl shadow-lg">
+                                            🎓
+                                        </div>
+                                        <div className="absolute -bottom-2 -right-4 w-12 h-12 bg-green-300 rounded-full flex items-center justify-center text-white shadow-lg">
+                                            💡
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Name Card */}
+                                    <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-white rounded-3xl p-4 shadow-xl min-w-max">
+                                        <div className="text-center">
+                                            <h3 className="text-xl font-bold text-gray-900 mb-1">Ibu Tirta Nursari</h3>
+                                            <p className="text-gray-600 text-sm mb-3">Pendiri Warung Pasinaon</p>
+                                            <div className="flex justify-center">
                                             </div>
                                         </div>
                                     </div>

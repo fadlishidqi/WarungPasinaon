@@ -28,7 +28,7 @@ class BookController extends Controller
 
         $books = $query->latest()->paginate(12)->withQueryString();
 
-        // Transform books untuk memastikan URL dimuat
+        // Transform books TANPA merusak struktur pagination
         $books->getCollection()->transform(function ($book) {
             return [
                 'id' => $book->id,
@@ -55,7 +55,7 @@ class BookController extends Controller
         ];
 
         return Inertia::render('Books/Index', [
-            'books' => $books,
+            'books' => $books, // Ini tetap struktur pagination Laravel
             'categories' => $categories,
             'filters' => $request->only(['category', 'search'])
         ]);
