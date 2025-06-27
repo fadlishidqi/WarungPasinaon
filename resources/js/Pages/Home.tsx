@@ -83,7 +83,7 @@ export default function Home({ auth }: PageProps) {
                                     </h1>
                                     
                                     <p className="text-lg text-gray-600 leading-relaxed max-w-md">
-                                        TBM Warung Pasinaon bukanlah toko buku atau lembaga profit, melainkan ruang belajar gratis bagi masyarakat. Terletak di Dusun Talun RT 07 RW VII, Bergas Lor, Kecamatan Bergas, Ungaran, tempat ini hadir sebagai wadah pendidikan literasi yang terbuka untuk semua kalangan.
+                                        TBM Warung Pasinaon bukanlah toko buku atau lembaga profit, melainkan ruang belajar gratis bagi masyarakat. Terletak di Dusun Tegalsari, Bergas Lor, Kecamatan Bergas, Ungaran, tempat ini hadir sebagai wadah pendidikan literasi yang terbuka untuk semua kalangan.
                                     </p>
                                 </div>
 
@@ -108,7 +108,7 @@ export default function Home({ auth }: PageProps) {
                                             </svg>
                                         </div>
                                         <h3 className="font-bold text-gray-900 text-sm sm:text-base">TBM</h3>
-                                        <p className="text-xs sm:text-sm text-gray-600 mt-1">Taman Baca Masyarakat</p>
+                                        <p className="text-xs sm:text-sm text-gray-600 mt-1">Taman Bacaan Masyarakat</p>
                                     </div>
                                     
                                     <div className="bg-white rounded-2xl p-6 sm:p-8 text-center shadow-sm border border-gray-100 sm:col-span-2 lg:col-span-1">
@@ -190,7 +190,7 @@ export default function Home({ auth }: PageProps) {
                                 {/* Floating Decorative Elements */}
                                 <div className="absolute top-32 right-10 w-12 h-12 bg-pink-200 rounded-full opacity-70"></div>
                                 <div className="absolute top-2 left-1/4 w-8 h-8 bg-green-200 rounded-full opacity-80"></div>
-                                <div className="absolute bottom-20 right-1/2 w-14 h-14 bg-purple-200 rounded-full opacity-60"></div>
+                                <div className="absolute right-1/2 w-14 h-14 bg-purple-200 rounded-full opacity-60"></div>
                                 <div className="absolute top-1/2 right-10 w-10 h-10 bg-orange-200 rounded-full opacity-70"></div>
                                 
                             </div>
@@ -220,11 +220,11 @@ export default function Home({ auth }: PageProps) {
                                     </h2>
                                     
                                     <p className="text-lg text-gray-600 leading-relaxed relative z-10">
-                                        Warung Pasinaon adalah platform pembelajaran digital yang didedikasikan untuk menyediakan akses pendidikan berkualitas bagi semua kalangan. Kami berkomitmen menghadirkan inovasi dalam dunia pendidikan Indonesia melalui teknologi dan konten pembelajaran yang interaktif.
+                                        Warung Pasinaon adalah sebuah Taman Bacaan Masyarakat (TBM) yang berdiri di Dusun Tegalsari, Bergas Lor, Kabupaten Semarang. Didirikan sejak tahun 2007 oleh Ibu Tirta Nursari, Warung Pasinaon hadir sebagai ruang belajar gratis yang terbuka bagi siapa saja, khususnya anak-anak. Nama "Pasinaon" sendiri berasal dari bahasa Jawa yang berarti "pembelajaran", mencerminkan semangat lokalitas dan kesederhanaan dalam membangun budaya literasi dari rumah sendiri.
                                     </p>
 
                                     <p className="text-lg text-gray-600 leading-relaxed relative z-10">
-                                        Dengan pengalaman bertahun-tahun di bidang pendidikan, kami memahami kebutuhan pembelajaran modern yang efektif dan menyenangkan. Platform kami dirancang untuk memfasilitasi proses belajar mengajar yang lebih engaging dan hasil yang optimal.
+                                        Kegiatan yang ditawarkan sangat beragam, mulai dari kelas menulis, pelatihan desain dan videografi, literasi digital, hingga pelatihan baca-tulis bagi lansia. Dengan semangat gotong royong dan dukungan dari berbagai pihak, Warung Pasinaon menjadi simbol perubahan sosial berbasis komunitas, tempat di mana belajar menjadi menyenangkan, hangat, dan bermakna.
                                     </p>
                                 </div>
                             </div>
@@ -234,7 +234,7 @@ export default function Home({ auth }: PageProps) {
                                 <div className="relative">
                                     {/* Main Photo Container */}
                                     <div className="relative">
-                                        <div className="w-80 h-96 bg-gradient-to-br from-blue-100 to-white-100 rounded-3xl overflow-hidden shadow-2xl">
+                                        <div className="w-96 h-96 bg-gradient-to-br from-blue-100 to-white-100 rounded-3xl overflow-hidden shadow-2xl">
                                             <img 
                                                 src="https://firebasestorage.googleapis.com/v0/b/seputipy.appspot.com/o/covers%2FAssetTirta1.png?alt=media"
                                                 alt="Bu Tirta Nursari - Pendiri Warung Pasinaon"
