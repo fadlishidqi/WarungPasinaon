@@ -70,10 +70,6 @@ class KegiatanResource extends Resource
                             ])
                             ->required()
                             ->default('draft'),
-
-                        Forms\Components\Toggle::make('featured')
-                            ->label('Kegiatan Unggulan')
-                            ->default(false),
                     ])
                     ->columns(2),
 
@@ -146,10 +142,6 @@ class KegiatanResource extends Resource
                         'success' => 'published',
                     ]),
 
-                Tables\Columns\IconColumn::make('featured')
-                    ->label('Unggulan')
-                    ->boolean(),
-
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Dibuat')
                     ->dateTime()
@@ -171,9 +163,6 @@ class KegiatanResource extends Resource
                         'draft' => 'Draft',
                         'published' => 'Published',
                     ]),
-
-                Tables\Filters\TernaryFilter::make('featured')
-                    ->label('Kegiatan Unggulan'),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),

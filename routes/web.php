@@ -17,9 +17,12 @@ Route::get('/', function () {
 Route::get('/kegiatan', [KegiatanController::class, 'index'])->name('kegiatan.index');
 Route::get('/kegiatan/{kegiatan}', [KegiatanController::class, 'show'])->name('kegiatan.show');
 
-Route::get('/buku-digital', function () {
-    return redirect('/');
-});
+Route::get('/buku-digital', [App\Http\Controllers\BookController::class, 'index'])->name('books.index');
+Route::get('/buku-digital/{book}', [App\Http\Controllers\BookController::class, 'show'])->name('books.show');
+Route::get('/buku-digital/{book}/baca', [App\Http\Controllers\BookController::class, 'read'])->name('books.read');
+Route::get('/buku-digital/{book}/download', [App\Http\Controllers\BookController::class, 'download'])->name('books.download');
+
+Route::get('/buku-digital', [App\Http\Controllers\BookController::class, 'index'])->name('books.index');
 
 Route::get('/ranking', function () {
     return redirect('/');

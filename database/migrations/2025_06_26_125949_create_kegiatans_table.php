@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->date('date');
             $table->enum('status', ['draft', 'published'])->default('draft');
-            $table->boolean('featured')->default(false);
             $table->string('meta_description')->nullable();
             $table->json('tags')->nullable();
             $table->timestamps();

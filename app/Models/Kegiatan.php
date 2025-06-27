@@ -21,7 +21,6 @@ class Kegiatan extends Model
         'image',
         'date',
         'status',
-        'featured',
         'meta_description',
         'tags',
         'category'
@@ -29,18 +28,12 @@ class Kegiatan extends Model
 
     protected $casts = [
         'date' => 'date',
-        'featured' => 'boolean',
         'tags' => 'array'
     ];
 
     public function getRouteKeyName()
     {
         return 'slug';
-    }
-
-    public function scopeFeatured($query)
-    {
-        return $query->where('featured', true);
     }
 
     public function scopePublished($query)
