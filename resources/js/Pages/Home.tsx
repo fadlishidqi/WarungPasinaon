@@ -82,7 +82,7 @@ export default function Home({ auth }: PageProps) {
                                     </h1>
                                     
                                     <p className="text-lg text-gray-600 leading-relaxed max-w-md">
-                                        Warung Pasinaon adalah platform pembelajaran digital yang menyediakan berbagai konten edukatif untuk mendukung proses belajar mengajar.
+                                        TBM Warung Pasinaon bukanlah toko buku atau lembaga profit, melainkan ruang belajar gratis bagi masyarakat. Terletak di Dusun Talun RT 07 RW VII, Bergas Lor, Kecamatan Bergas, Ungaran, tempat ini hadir sebagai wadah pendidikan alternatif yang terbuka untuk semua kalangan.
                                     </p>
                                 </div>
 
@@ -138,8 +138,7 @@ export default function Home({ auth }: PageProps) {
                                 {/* Top Image */}
                                 <div className="rounded-3xl overflow-hidden shadow-lg">
                                     <img 
-                                        src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" 
-                                        alt="Kegiatan Belajar"
+                                        src="https://firebasestorage.googleapis.com/v0/b/seputipy.appspot.com/o/covers%2FAssetPasinaon2.png?alt=media"
                                         className="w-full h-64 object-cover"
                                     />
                                 </div>
@@ -148,14 +147,14 @@ export default function Home({ auth }: PageProps) {
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="rounded-3xl overflow-hidden shadow-lg">
                                         <img 
-                                            src="https://images.unsplash.com/photo-1509062522246-3755977927d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80" 
+                                            src="https://firebasestorage.googleapis.com/v0/b/seputipy.appspot.com/o/covers%2FAssetPasinaon1.png?alt=media" 
                                             alt="Diskusi Kelompok"
                                             className="w-full h-40 object-cover"
                                         />
                                     </div>
                                     <div className="rounded-3xl overflow-hidden shadow-lg">
                                         <img 
-                                            src="https://images.unsplash.com/photo-1497486751825-1233686d5d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80" 
+                                            src="https://firebasestorage.googleapis.com/v0/b/seputipy.appspot.com/o/covers%2FAssetPasinaon3.png?alt=media" 
                                             alt="Digital Learning"
                                             className="w-full h-40 object-cover"
                                         />

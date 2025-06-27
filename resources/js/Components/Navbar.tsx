@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Link } from '@inertiajs/react';
+import { Link, usePage, router } from '@inertiajs/react';
 
 const Navbar = () => {
    const [isOpen, setIsOpen] = useState(false);
+   const { url } = usePage();
 
    const toggleMenu = () => {
        setIsOpen(!isOpen);
@@ -13,7 +14,28 @@ const Navbar = () => {
        if (element) {
            element.scrollIntoView({ behavior: 'smooth' });
        }
-       setIsOpen(false); // Close mobile menu after click
+       setIsOpen(false);
+   };
+
+   const handleNavClick = (sectionId: string) => {
+       if (url === '/') {
+           // Jika sudah di halaman home, gunakan smooth scroll
+           scrollToSection(sectionId);
+       } else {
+           // Jika di halaman lain, navigasi ke home menggunakan Inertia
+           router.visit('/', {
+               onSuccess: () => {
+                   // Setelah halaman loaded, scroll ke section
+                   setTimeout(() => {
+                       const element = document.getElementById(sectionId);
+                       if (element) {
+                           element.scrollIntoView({ behavior: 'smooth' });
+                       }
+                   }, 100);
+               }
+           });
+       }
+       setIsOpen(false);
    };
 
    return (
@@ -31,14 +53,14 @@ const Navbar = () => {
                    <div className="hidden md:block">
                        <div className="ml-10 flex items-baseline space-x-8">
                            <button 
-                               onClick={() => scrollToSection('home')}
-                               className="text-gray-700 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300"
+                               onClick={() => handleNavClick('home')}
+                               className="text-gray-700 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300 cursor-pointer"
                            >
                                Home
                            </button>
                            <button 
-                               onClick={() => scrollToSection('about')}
-                               className="text-gray-700 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300"
+                               onClick={() => handleNavClick('about')}
+                               className="text-gray-700 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300 cursor-pointer"
                            >
                                Tentang Kami
                            </button>
@@ -89,13 +111,13 @@ const Navbar = () => {
                <div className="md:hidden">
                    <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white shadow-lg">
                        <button
-                           onClick={() => scrollToSection('home')}
+                           onClick={() => handleNavClick('home')}
                            className="text-gray-700 hover:text-green-600 block px-3 py-2 rounded-md text-base font-medium transition duration-300 w-full text-left"
                        >
                            Home
                        </button>
                        <button
-                           onClick={() => scrollToSection('about')}
+                           onClick={() => handleNavClick('about')}
                            className="text-gray-700 hover:text-green-600 block px-3 py-2 rounded-md text-base font-medium transition duration-300 w-full text-left"
                        >
                            Tentang Kami
