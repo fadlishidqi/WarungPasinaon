@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\KegiatanController;
+use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\RankingController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -24,9 +26,9 @@ Route::get('/buku-digital/{book}/download', [App\Http\Controllers\BookController
 
 Route::get('/buku-digital', [App\Http\Controllers\BookController::class, 'index'])->name('books.index');
 
-Route::get('/ranking', function () {
-    return redirect('/');
-});
+// Route::get('/ranking', function () {
+//     return redirect('/');
+// });
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -37,5 +39,15 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+// Route untuk menampilkan form absensi
+Route::get('/absen-anak', [AttendanceController::class, 'createAnak'])->name('attendance.create.anak');
+Route::get('/absen-umum', [AttendanceController::class, 'createUmum'])->name('attendance.create.umum');
+
+// Route untuk memproses data dari KEDUA form di atas
+Route::post('/absen', [AttendanceController::class, 'store'])->name('attendance.store');
+
+// Route untuk menampilkan halaman peringkat
+Route::get('/ranking', [RankingController::class, 'index'])->name('ranking.index');
 
 require __DIR__.'/auth.php';
