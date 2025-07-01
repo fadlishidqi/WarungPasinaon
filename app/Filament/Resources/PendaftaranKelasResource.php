@@ -109,11 +109,9 @@ class PendaftaranKelasResource extends Resource
                     ->label('Kategori')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
-                        'Programming' => 'success',
-                        'Frontend' => 'info',
-                        'Backend' => 'warning',
-                        'Design' => 'danger',
-                        'Marketing' => 'primary',
+                        'Tari' => 'success',
+                        'Masak' => 'warning',
+                        'Menulis' => 'info',
                         default => 'gray',
                     }),
 
@@ -130,14 +128,9 @@ class PendaftaranKelasResource extends Resource
 
                 SelectFilter::make('kategori')
                     ->options([
-                        'Programming' => 'Programming',
-                        'Frontend' => 'Frontend',
-                        'Backend' => 'Backend',
-                        'Design' => 'Design',
-                        'Marketing' => 'Marketing',
-                        'Bisnis' => 'Bisnis',
-                        'Teknologi' => 'Teknologi',
-                        'Lainnya' => 'Lainnya',
+                        'Tari' => 'Tari',
+                        'Masak' => 'Masak', 
+                        'Menulis' => 'Menulis',
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query->when(

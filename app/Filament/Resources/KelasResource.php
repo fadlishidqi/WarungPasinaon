@@ -60,14 +60,9 @@ class KelasResource extends Resource
 
                         Forms\Components\Select::make('kategori')
                             ->options([
-                                'Programming' => 'Programming',
-                                'Frontend' => 'Frontend',
-                                'Backend' => 'Backend',
-                                'Design' => 'Design',
-                                'Marketing' => 'Marketing',
-                                'Bisnis' => 'Bisnis',
-                                'Teknologi' => 'Teknologi',
-                                'Lainnya' => 'Lainnya',
+                                'Tari' => 'Tari',
+                                'Masak' => 'Masak', 
+                                'Menulis' => 'Menulis',
                             ])
                             ->required()
                             ->searchable(),
@@ -134,11 +129,9 @@ class KelasResource extends Resource
                 Tables\Columns\TextColumn::make('kategori')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
-                        'Programming' => 'success',
-                        'Frontend' => 'info',
-                        'Backend' => 'warning',
-                        'Design' => 'danger',
-                        'Marketing' => 'primary',
+                        'Tari' => 'success',
+                        'Masak' => 'warning',
+                        'Menulis' => 'info',
                         default => 'gray',
                     }),
 
@@ -173,14 +166,9 @@ class KelasResource extends Resource
             ->filters([
                 SelectFilter::make('kategori')
                     ->options([
-                        'Programming' => 'Programming',
-                        'Frontend' => 'Frontend',
-                        'Backend' => 'Backend',
-                        'Design' => 'Design',
-                        'Marketing' => 'Marketing',
-                        'Bisnis' => 'Bisnis',
-                        'Teknologi' => 'Teknologi',
-                        'Lainnya' => 'Lainnya',
+                        'Tari' => 'Tari',
+                        'Masak' => 'Masak', 
+                        'Menulis' => 'Menulis',
                     ]),
 
                 SelectFilter::make('is_active')
