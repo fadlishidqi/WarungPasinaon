@@ -5,6 +5,7 @@ use Illuminate\Foundation\Application;
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\LibraryAttendanceController;
+use App\Http\Controllers\RankingController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -26,9 +27,7 @@ Route::get('/buku-digital/{book}/download', [App\Http\Controllers\BookController
 
 Route::get('/buku-digital', [App\Http\Controllers\BookController::class, 'index'])->name('books.index');
 
-Route::get('/ranking', function () {
-    return redirect('/');
-});
+Route::get('/ranking', [RankingController::class, 'index'])->name('ranking.index');
 
 Route::get('/kelas', [KelasController::class, 'index'])->name('kelas.index');
 Route::get('/kelas/{id}', [KelasController::class, 'show'])->name('kelas.show');

@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\LibraryAttendanceResource\Pages;
 use App\Models\LibraryAttendance;
 use App\Models\Participant;
+use App\Exports\LibraryAttendanceExport;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,6 +14,9 @@ use Filament\Tables\Table;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 class LibraryAttendanceResource extends Resource
 {
@@ -209,9 +213,11 @@ class LibraryAttendanceResource extends Resource
                 Filter::make('tanggal_range')
                     ->form([
                         Forms\Components\DatePicker::make('dari_tanggal')
-                            ->label('Dari Tanggal'),
+                            ->label('Dari Tanggal')
+                            ->native(false),
                         Forms\Components\DatePicker::make('sampai_tanggal')
-                            ->label('Sampai Tanggal'),
+                            ->label('Sampai Tanggal')
+                            ->native(false),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
@@ -223,7 +229,7 @@ class LibraryAttendanceResource extends Resource
                                 $data['sampai_tanggal'],
                                 fn (Builder $query, $date): Builder => $query->whereDate('visit_date', '<=', $date),
                             );
-                    })
+                    }),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
@@ -233,7 +239,28 @@ class LibraryAttendanceResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    ExportBulkAction::make()
+                        ->label('Export ke Excel')
+                        ->icon('heroicon-o-document-arrow-down')
+                        ->exports([
+                            ExcelExport::make()
+                                ->fromTable()
+                                ->withFilename('daftar-hadir-perpustakaan-' . date('d-m-Y'))
+                                ->withWriterType(\Maatwebsite\Excel\Excel::XLSX)
+                        ]),
                 ]),
+            ])
+            ->headerActions([
+                ExportAction::make()
+                    ->label('Export Excel')
+                    ->color('success')
+                    ->icon('heroicon-o-document-arrow-down')
+                    ->exports([
+                        ExcelExport::make()
+                            ->fromTable()
+                            ->withFilename('daftar-hadir-perpustakaan-' . date('d-m-Y'))
+                            ->withWriterType(\Maatwebsite\Excel\Excel::XLSX)
+                    ]),
             ]);
     }
 

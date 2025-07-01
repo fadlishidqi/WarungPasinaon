@@ -32,4 +32,24 @@ class Participant extends Model
     {
         return $this->type === 'general';
     }
+
+    public function points()
+    {
+        return $this->hasMany(ParticipantPoint::class);
+    }
+
+    public function getTotalPointsAttribute(): int
+    {
+        return $this->points()->sum('points');
+    }
+
+    public function addPoints(int $points, string $activityType = 'library_visit', string $description = null): void
+    {
+        $this->points()->create([
+            'points' => $points,
+            'activity_type' => $activityType,
+            'description' => $description,
+            'earned_date' => today(),
+        ]);
+    }
 }

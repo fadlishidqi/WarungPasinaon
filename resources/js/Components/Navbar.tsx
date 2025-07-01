@@ -13,10 +13,22 @@ const Navbar = () => {
         <nav className="bg-white shadow-lg">
             <div className="max-w-7xl mx-auto px-6 lg:px-8">
                 <div className="flex justify-between h-16">
-                    {/* Logo */}
+                    {/* Logo & Brand */}
                     <div className="flex items-center">
-                        <Link href="/" className="text-2xl font-bold text-green-600">
-                            Warung Pasinaon
+                        <Link href="/" className="flex items-center space-x-3 hover:opacity-90 transition-opacity">
+                            <img 
+                                src="https://firebasestorage.googleapis.com/v0/b/seputipy.appspot.com/o/covers%2Flogo_pasinaon.png?alt=media" 
+                                alt="Warung Pasinaon Logo" 
+                                className="h-16 w-16 object-contain"
+                            />
+                            <div>
+                                <span className="text-2xl font-black text-gray-900">
+                                    Warung Pasinaon
+                                </span>
+                                <div className="text-xs text-gray-500 -mt-1">
+                                    Ruang Belajar Bersama
+                                </div>
+                            </div>
                         </Link>
                     </div>
 
@@ -77,20 +89,20 @@ const Navbar = () => {
                 {/* Mobile Menu */}
                 {isOpen && (
                     <div className="md:hidden">
-                        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                            <Link href="/" className="text-gray-700 hover:text-green-600 block px-3 py-2 rounded-md text-base font-medium">
+                        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-100">
+                            <Link href="/" className="text-gray-700 hover:text-green-600 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition-colors">
                                 Home
                             </Link>
-                            <Link href="/kegiatan" className="text-gray-700 hover:text-green-600 block px-3 py-2 rounded-md text-base font-medium">
+                            <Link href="/kegiatan" className="text-gray-700 hover:text-green-600 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition-colors">
                                 Kegiatan
                             </Link>
-                            <Link href="/kelas" className="text-gray-700 hover:text-green-600 block px-3 py-2 rounded-md text-base font-medium">
+                            <Link href="/kelas" className="text-gray-700 hover:text-green-600 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition-colors">
                                 Kelas
                             </Link>
-                            <Link href="/buku-digital" className="text-gray-700 hover:text-green-600 block px-3 py-2 rounded-md text-base font-medium">
+                            <Link href="/buku-digital" className="text-gray-700 hover:text-green-600 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition-colors">
                                 Buku Digital
                             </Link>
-                            <Link href="/ranking" className="text-gray-700 hover:text-green-600 block px-3 py-2 rounded-md text-base font-medium">
+                            <Link href="/ranking" className="text-gray-700 hover:text-green-600 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition-colors">
                                 Ranking
                             </Link>
                         </div>
