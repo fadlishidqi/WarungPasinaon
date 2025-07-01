@@ -60,7 +60,7 @@ export default function LibraryAttendanceIndex() {
         post('/daftar-hadir', {
             onSuccess: () => {
                 reset();
-                fetchStats(); // Refresh stats
+                fetchStats();
             },
             onFinish: () => {
                 setIsSubmitting(false);
@@ -145,7 +145,6 @@ export default function LibraryAttendanceIndex() {
                                 <div className="mt-1 text-sm text-blue-700">
                                     <ul className="list-disc pl-5 space-y-1">
                                         <li>Setiap orang hanya bisa mengisi daftar hadir sekali per hari</li>
-                                        <li>Nama akan otomatis diubah menjadi huruf besar semua</li>
                                         <li>Pastikan nama yang dimasukkan sudah benar</li>
                                     </ul>
                                 </div>
@@ -412,30 +411,6 @@ export default function LibraryAttendanceIndex() {
                                 </div>
                             )}
                         </form>
-                    </div>
-
-                    {/* Info Section */}
-                    <div className="mt-12 bg-yellow-50 border border-yellow-200 rounded-lg p-6">
-                        <div className="flex items-start">
-                            <div className="flex-shrink-0">
-                                <svg className="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                                </svg>
-                            </div>
-                            <div className="ml-3">
-                                <h3 className="text-sm font-medium text-yellow-800">
-                                    Informasi Penting
-                                </h3>
-                                <div className="mt-2 text-sm text-yellow-700">
-                                    <ul className="list-disc pl-5 space-y-1">
-                                        <li>Data yang Anda isi akan membantu kami memahami pola kunjungan perpustakaan</li>
-                                        <li>Semua field yang bertanda (*) wajib diisi</li>
-                                        <li>Data Anda akan dijaga kerahasiaannya dan hanya digunakan untuk keperluan statistik</li>
-                                        <li>Jika ada pertanyaan, silakan hubungi petugas perpustakaan</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
