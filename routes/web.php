@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\KegiatanController;
+use App\Http\Controllers\KelasController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -27,6 +28,10 @@ Route::get('/buku-digital', [App\Http\Controllers\BookController::class, 'index'
 Route::get('/ranking', function () {
     return redirect('/');
 });
+
+Route::get('/kelas', [KelasController::class, 'index'])->name('kelas.index');
+Route::get('/kelas/{id}', [KelasController::class, 'show'])->name('kelas.show');
+Route::post('/kelas/{id}/daftar', [KelasController::class, 'daftar'])->name('kelas.daftar');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

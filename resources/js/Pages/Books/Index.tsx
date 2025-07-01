@@ -217,108 +217,107 @@ const BooksIndex: React.FC<BooksIndexProps> = ({ books, categories, filters }) =
                     )}
 
                     {/* Books Grid */}
-{/* Books Grid - Enhanced Beautiful Cards dengan animasi yang lebih halus */}
-{booksData.length > 0 ? (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
-        {booksData.map((book: any) => (
-            <div key={book.id} className="group bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 overflow-hidden hover:-translate-y-1 hover:scale-103">
-                {/* Book Cover dengan Overlay */}
-                <div className="aspect-[3/4] bg-gradient-to-br from-gray-100 to-gray-200 relative overflow-hidden">
-                    {book.cover_url ? (
-                        <>
-                            <img
-                                src={book.cover_url}
-                                alt={book.title}
-                                className="w-full h-full object-cover"
-                            />
-                            {/* Gradient Overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        </>
+                    {booksData.length > 0 ? (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
+                            {booksData.map((book: any) => (
+                                <div key={book.id} className="group bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 overflow-hidden hover:-translate-y-1 hover:scale-103">
+                                    {/* Book Cover dengan Overlay */}
+                                    <div className="aspect-[3/4] bg-gradient-to-br from-gray-100 to-gray-200 relative overflow-hidden">
+                                        {book.cover_url ? (
+                                            <>
+                                                <img
+                                                    src={book.cover_url}
+                                                    alt={book.title}
+                                                    className="w-full h-full object-cover"
+                                                />
+                                                {/* Gradient Overlay */}
+                                                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                            </>
+                                        ) : (
+                                            <div className="w-full h-full flex items-center justify-center text-gray-400 bg-gradient-to-br from-gray-50 to-gray-100">
+                                                <div className="text-center">
+                                                    <svg className="w-16 h-16 mx-auto mb-2 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                                    </svg>
+                                                    <p className="text-xs text-gray-400">No Cover</p>
+                                                </div>
+                                            </div>
+                                        )}
+                                        
+                                        {/* Category Badge dengan Glassmorphism */}
+                                        <div className="absolute top-3 left-3">
+                                            <span className={`px-3 py-1.5 rounded-full text-xs font-semibold backdrop-blur-md bg-white/80 border border-white/20 shadow-lg ${getCategoryBadgeColor(book.category)}`}>
+                                                {categories[book.category]}
+                                            </span>
+                                        </div>
+
+                                        {/* Floating Quick Action */}
+                                        <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-1 group-hover:translate-y-0">
+                                            <Link
+                                                href={`/buku-digital/${book.slug}`}
+                                                className="w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:bg-white hover:scale-105 transition-all duration-200"
+                                            >
+                                                <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                                </svg>
+                                            </Link>
+                                        </div>
+                                    </div>
+
+                                    {/* Book Info dengan Better Typography */}
+                                    <div className="p-5 lg:p-6 space-y-4">
+                                        <div className="space-y-3">
+                                            <h3 className="font-bold text-lg lg:text-xl text-gray-900 leading-tight line-clamp-2 group-hover:text-blue-600 transition-colors duration-200">
+                                                {book.title}
+                                            </h3>
+                                            
+                                            <div className="flex items-center space-x-2 text-sm text-gray-600">
+                                                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                                </svg>
+                                                <span className="font-medium">{book.author}</span>
+                                            </div>
+
+                                            {book.published_year && (
+                                                <div className="flex items-center space-x-2 text-xs text-gray-500">
+                                                    <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                    </svg>
+                                                    <span>{book.published_year}</span>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        {/* Action Buttons dengan Modern Design */}
+                                        <div className="flex gap-3 pt-2">
+                                            <Link
+                                                href={`/buku-digital/${book.slug}`}
+                                                className="flex-1 group/btn bg-gradient-to-r from-blue-500 to-blue-600 text-white text-sm font-semibold px-4 py-3 rounded-2xl text-center hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-102 flex items-center justify-center space-x-2"
+                                            >
+                                                <svg className="w-4 h-4 group-hover/btn:scale-105 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                                <span>Detail</span>
+                                            </Link>
+                                            <Link
+                                                href={`/buku-digital/${book.slug}/baca`}
+                                                className="flex-1 group/btn bg-gradient-to-r from-green-500 to-green-600 text-white text-sm font-semibold px-4 py-3 rounded-2xl text-center hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-102 flex items-center justify-center space-x-2"
+                                            >
+                                                <svg className="w-4 h-4 group-hover/btn:scale-105 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                                </svg>
+                                                <span>Baca</span>
+                                            </Link>
+                                        </div>
+                                    </div>
+
+                                    {/* Bottom Accent Line */}
+                                    <div className="h-1 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                                </div>
+                            ))}
+                        </div>
                     ) : (
-                        <div className="w-full h-full flex items-center justify-center text-gray-400 bg-gradient-to-br from-gray-50 to-gray-100">
-                            <div className="text-center">
-                                <svg className="w-16 h-16 mx-auto mb-2 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                                </svg>
-                                <p className="text-xs text-gray-400">No Cover</p>
-                            </div>
-                        </div>
-                    )}
-                    
-                    {/* Category Badge dengan Glassmorphism */}
-                    <div className="absolute top-3 left-3">
-                        <span className={`px-3 py-1.5 rounded-full text-xs font-semibold backdrop-blur-md bg-white/80 border border-white/20 shadow-lg ${getCategoryBadgeColor(book.category)}`}>
-                            {categories[book.category]}
-                        </span>
-                    </div>
-
-                    {/* Floating Quick Action */}
-                    <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-1 group-hover:translate-y-0">
-                        <Link
-                            href={`/buku-digital/${book.slug}`}
-                            className="w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:bg-white hover:scale-105 transition-all duration-200"
-                        >
-                            <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
-                        </Link>
-                    </div>
-                </div>
-
-                {/* Book Info dengan Better Typography */}
-                <div className="p-5 lg:p-6 space-y-4">
-                    <div className="space-y-3">
-                        <h3 className="font-bold text-lg lg:text-xl text-gray-900 leading-tight line-clamp-2 group-hover:text-blue-600 transition-colors duration-200">
-                            {book.title}
-                        </h3>
-                        
-                        <div className="flex items-center space-x-2 text-sm text-gray-600">
-                            <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                            </svg>
-                            <span className="font-medium">{book.author}</span>
-                        </div>
-
-                        {book.published_year && (
-                            <div className="flex items-center space-x-2 text-xs text-gray-500">
-                                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
-                                <span>{book.published_year}</span>
-                            </div>
-                        )}
-                    </div>
-
-                    {/* Action Buttons dengan Modern Design */}
-                    <div className="flex gap-3 pt-2">
-                        <Link
-                            href={`/buku-digital/${book.slug}`}
-                            className="flex-1 group/btn bg-gradient-to-r from-blue-500 to-blue-600 text-white text-sm font-semibold px-4 py-3 rounded-2xl text-center hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-102 flex items-center justify-center space-x-2"
-                        >
-                            <svg className="w-4 h-4 group-hover/btn:scale-105 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            <span>Detail</span>
-                        </Link>
-                        <Link
-                            href={`/buku-digital/${book.slug}/baca`}
-                            className="flex-1 group/btn bg-gradient-to-r from-green-500 to-green-600 text-white text-sm font-semibold px-4 py-3 rounded-2xl text-center hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-102 flex items-center justify-center space-x-2"
-                        >
-                            <svg className="w-4 h-4 group-hover/btn:scale-105 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                            </svg>
-                            <span>Baca</span>
-                        </Link>
-                    </div>
-                </div>
-
-                {/* Bottom Accent Line */}
-                <div className="h-1 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
-            </div>
-        ))}
-    </div>
-) : (
                         <div className="text-center py-16">
                             <div className="bg-white rounded-3xl shadow-lg p-12 max-w-md mx-auto">
                                 <div className="w-24 h-24 mx-auto bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center mb-6">
