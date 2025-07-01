@@ -79,6 +79,13 @@ class KelasController extends Controller
             'no_telp' => $request->no_telp
         ]);
 
-        return back()->with('success', 'Pendaftaran berhasil! Kami akan menghubungi Anda segera.');
+        // Return dengan data grup untuk modal
+        return back()->with([
+            'success' => 'Pendaftaran berhasil! Selamat bergabung di kelas.',
+            'show_group_modal' => true,
+            'group_link' => $kelas->grup_wa,
+            'group_name' => "Grup {$kelas->nama}",
+            'class_name' => $kelas->nama
+        ]);
     }
 }
