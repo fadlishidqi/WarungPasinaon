@@ -1,6 +1,7 @@
 // resources/js/Components/Navbar.tsx
 import React, { useState } from 'react';
 import { Link } from '@inertiajs/react';
+import LoadingImage from '@/Components/LoadingImage';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -16,7 +17,7 @@ const Navbar = () => {
                     {/* Logo & Brand */}
                     <div className="flex items-center">
                         <Link href="/" className="flex items-center space-x-3 hover:opacity-90 transition-opacity">
-                            <img 
+                            <LoadingImage 
                                 src="https://firebasestorage.googleapis.com/v0/b/seputipy.appspot.com/o/covers%2Flogo_pasinaon.png?alt=media" 
                                 alt="Warung Pasinaon Logo" 
                                 className="h-16 w-16 object-contain"

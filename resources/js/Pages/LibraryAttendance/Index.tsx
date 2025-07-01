@@ -111,6 +111,12 @@ export default function LibraryAttendanceIndex() {
             <div className="min-h-screen bg-gray-50">
                 <Navbar />
 
+                <div className="fixed inset-0 overflow-hidden pointer-events-none">
+                    <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+                    <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+                    <div className="absolute top-40 left-40 w-80 h-80 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
+                </div>
+
                 <div className="max-w-4xl mx-auto px-6 lg:px-8 py-12">
                     {typeof props.success === 'string' && (
                         <div className="mb-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
@@ -175,28 +181,6 @@ export default function LibraryAttendanceIndex() {
                             </div>
                         </div>
                     </div>
-
-                    {/* Stats Cards */}
-                    {stats && (
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                            <div className="bg-blue-500 text-white p-4 rounded-lg text-center">
-                                <div className="text-2xl font-bold">{stats.today}</div>
-                                <div className="text-sm">Pengunjung Hari Ini</div>
-                            </div>
-                            <div className="bg-green-500 text-white p-4 rounded-lg text-center">
-                                <div className="text-2xl font-bold">{stats.thisMonth}</div>
-                                <div className="text-sm">Bulan Ini</div>
-                            </div>
-                            <div className="bg-purple-500 text-white p-4 rounded-lg text-center">
-                                <div className="text-2xl font-bold">{stats.childrenToday}</div>
-                                <div className="text-sm">Anak-anak Hari Ini</div>
-                            </div>
-                            <div className="bg-orange-500 text-white p-4 rounded-lg text-center">
-                                <div className="text-2xl font-bold">{stats.generalToday}</div>
-                                <div className="text-sm">Umum Hari Ini</div>
-                            </div>
-                        </div>
-                    )}
 
                     {/* Form */}
                     <div className="bg-white rounded-xl shadow-lg p-8">

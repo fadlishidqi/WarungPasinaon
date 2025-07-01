@@ -1,6 +1,8 @@
 // resources/js/Pages/Ranking/Index.tsx
 import React from 'react';
 import { Head } from '@inertiajs/react';
+import { motion } from 'framer-motion';
+import LoadingImage from '@/Components/LoadingImage';
 import CompanyLayout from '@/Components/CompanyLayout';
 
 interface RankingItem {
@@ -24,169 +26,347 @@ interface Props {
 }
 
 const Index: React.FC<Props> = ({ rankings, stats }) => {
-    const getRankStyle = (rank: number) => {
+    const getMedalIcon = (rank: number) => {
+        switch (rank) {
+            case 1:
+                return (
+                    <div className="relative">
+                        <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center shadow-lg">
+                            <span className="text-2xl">🥇</span>
+                        </div>
+                        <div className="absolute -top-1 -right-1 w-6 h-6 bg-yellow-500 rounded-full flex items-center justify-center">
+                            <span className="text-xs font-bold text-white">1</span>
+                        </div>
+                    </div>
+                );
+            case 2:
+                return (
+                    <div className="relative">
+                        <div className="w-14 h-14 bg-gradient-to-br from-gray-400 to-gray-600 rounded-full flex items-center justify-center shadow-lg">
+                            <span className="text-xl">🥈</span>
+                        </div>
+                        <div className="absolute -top-1 -right-1 w-5 h-5 bg-gray-500 rounded-full flex items-center justify-center">
+                            <span className="text-xs font-bold text-white">2</span>
+                        </div>
+                    </div>
+                );
+            case 3:
+                return (
+                    <div className="relative">
+                        <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center shadow-lg">
+                            <span className="text-lg">🥉</span>
+                        </div>
+                        <div className="absolute -top-1 -right-1 w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center">
+                            <span className="text-xs font-bold text-white">3</span>
+                        </div>
+                    </div>
+                );
+            default:
+                return (
+                    <div className="w-10 h-10 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center border-2 border-blue-300">
+                        <span className="text-sm font-bold text-blue-700">{rank}</span>
+                    </div>
+                );
+        }
+    };
+
+    const getRankCardStyle = (rank: number) => {
         switch (rank) {
             case 1:
                 return {
-                    bg: 'bg-gradient-to-r from-yellow-400 to-yellow-500',
-                    text: 'text-white',
-                    rankBg: 'bg-yellow-600',
-                    shadow: 'shadow-yellow-200'
+                    container: 'bg-gradient-to-r from-yellow-50 to-amber-50 border-yellow-200 shadow-yellow-100',
+                    glow: 'shadow-2xl',
+                    scale: 'scale-105'
                 };
             case 2:
                 return {
-                    bg: 'bg-gradient-to-r from-gray-300 to-gray-400',
-                    text: 'text-white',
-                    rankBg: 'bg-gray-500',
-                    shadow: 'shadow-gray-200'
+                    container: 'bg-gradient-to-r from-gray-50 to-slate-50 border-gray-200 shadow-gray-100',
+                    glow: 'shadow-xl',
+                    scale: 'scale-102'
                 };
             case 3:
                 return {
-                    bg: 'bg-gradient-to-r from-orange-400 to-orange-500',
-                    text: 'text-white',
-                    rankBg: 'bg-orange-600',
-                    shadow: 'shadow-orange-200'
+                    container: 'bg-gradient-to-r from-orange-50 to-red-50 border-orange-200 shadow-orange-100',
+                    glow: 'shadow-xl',
+                    scale: 'scale-102'
                 };
             default:
                 return {
-                    bg: 'bg-white',
-                    text: 'text-gray-800',
-                    rankBg: 'bg-gray-100',
-                    shadow: 'shadow-gray-100'
+                    container: 'bg-white border-gray-100',
+                    glow: 'shadow-sm',
+                    scale: ''
                 };
         }
     };
 
-    const getInitials = (name: string) => {
-        return name
-            .split(' ')
-            .map(word => word.charAt(0))
-            .join('')
-            .slice(0, 2)
-            .toUpperCase();
+    const getRandomAvatarId = (name: string) => {
+        // Generate consistent random number based on name
+        let hash = 0;
+        for (let i = 0; i < name.length; i++) {
+            const char = name.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash = hash & hash;
+        }
+        return Math.abs(hash) % 100 + 1;
     };
 
-    const getAvatarColor = (rank: number) => {
-        const colors = [
-            'bg-blue-500', 'bg-green-500', 'bg-purple-500', 'bg-pink-500', 
-            'bg-indigo-500', 'bg-red-500', 'bg-yellow-500', 'bg-teal-500',
-            'bg-orange-500', 'bg-cyan-500'
-        ];
-        return colors[(rank - 1) % colors.length];
+    const fadeInUp = {
+        initial: { opacity: 0, y: 20 },
+        animate: { opacity: 1, y: 0 },
+        transition: { duration: 0.5 }
+    };
+
+    const staggerChildren = {
+        animate: {
+            transition: {
+                staggerChildren: 0.1
+            }
+        }
     };
 
     return (
         <CompanyLayout>
             <Head title="Ranking Anak-anak - Warung Pasinaon" />
-            
-            <div className="min-h-screen bg-gray-50 py-8">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                    {/* Header */}
-                    <div className="text-center mb-8">
-                        <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                            🏆 Leaderboard Anak-anak
-                        </h1>
-                        <p className="text-gray-600">
-                            Setiap kunjungan perpustakaan = 50 poin
-                        </p>
-                    </div>
 
-                    {/* Rankings List */}
-                    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                        <div className="p-6 border-b border-gray-100">
-                            <h2 className="text-xl font-semibold text-gray-900">Ranking</h2>
+            <div className="fixed inset-0 overflow-hidden pointer-events-none">
+                <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+                <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+                <div className="absolute top-40 left-40 w-80 h-80 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
+            </div>
+            
+            <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-purple-50 py-8">
+                <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                    {/* Header */}
+                    <motion.div 
+                        className="text-center mb-12"
+                        {...fadeInUp}
+                    >
+                        <div className="relative inline-block">
+                            <h1 className="relative z-10 text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
+                                🏆 Leaderboard Champions
+                            </h1>
+                            <span className="absolute -bottom-0.5 left-0 right-0 h-12 bg-gradient-to-r from-pink-200 via-rose-200 to-white rounded-lg transform -rotate-1 z-0"></span>
+                            <div className="absolute -top-2 -right-2 animate-bounce z-20">
+                                <span className="text-2xl">✨</span>
+                            </div>
+                        </div>
+                        <p className="text-lg text-gray-600 max-w-2xl mx-auto mt-4">
+                            Semakin aktif kamu berpartisipasi dalam kegiatan literasi, semakin besar peluangmu untuk naik peringkat di leaderboard!
+                        </p>
+                    </motion.div>
+
+                    {/* Top 3 Podium */}
+                    {rankings.length >= 3 && (
+                        <motion.div 
+                            className="mb-12"
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.6, delay: 0.2 }}
+                        >
+                            <div className="flex justify-center items-end space-x-4 md:space-x-8">
+                                {/* 2nd Place */}
+                                <motion.div 
+                                    className="text-center"
+                                    initial={{ opacity: 0, y: 50 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.6, delay: 0.4 }}
+                                >
+                                    <div className="mb-4">
+                                        <LoadingImage
+                                            src={`https://avatar.iran.liara.run/public/${getRandomAvatarId(rankings[1]?.name)}`}
+                                            alt={rankings[1]?.name}
+                                            className="w-16 h-16 rounded-full border-4 border-gray-300 shadow-lg mx-auto mb-2"
+                                        />
+                                        {getMedalIcon(2)}
+                                    </div>
+                                    <div className="bg-gradient-to-t from-gray-300 to-gray-200 h-20 w-28 rounded-t-2xl flex flex-col justify-center items-center shadow-lg">
+                                        <div className="text-gray-900 font-bold text-xs">{rankings[1]?.name}</div>
+                                        <div className="text-gray-600 text-xs font-medium">{rankings[1]?.total_points} XP</div>
+                                    </div>
+                                </motion.div>
+
+                                {/* 1st Place - PALING TINGGI */}
+                                <motion.div 
+                                    className="text-center"
+                                    initial={{ opacity: 0, y: 50 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.6, delay: 0.3 }}
+                                >
+                                    <div className="mb-4">
+                                        <LoadingImage
+                                            src={`https://avatar.iran.liara.run/public/${getRandomAvatarId(rankings[0]?.name)}`}
+                                            alt={rankings[0]?.name}
+                                            className="w-20 h-20 rounded-full border-4 border-yellow-400 shadow-xl mx-auto mb-2"
+                                        />
+                                        {getMedalIcon(1)}
+                                    </div>
+                                    <div className="bg-gradient-to-t from-yellow-400 to-yellow-300 h-28 w-32 rounded-t-2xl flex flex-col justify-center items-center shadow-xl">
+                                        <div className="text-gray-900 font-bold text-sm">{rankings[0]?.name}</div>
+                                        <div className="text-yellow-800 text-sm font-medium">{rankings[0]?.total_points} XP</div>
+                                        <div className="text-xs text-yellow-700">👑 Champion</div>
+                                    </div>
+                                </motion.div>
+
+                                {/* 3rd Place - PALING PENDEK */}
+                                <motion.div 
+                                    className="text-center"
+                                    initial={{ opacity: 0, y: 50 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.6, delay: 0.5 }}
+                                >
+                                    <div className="mb-4">
+                                        <LoadingImage
+                                            src={`https://avatar.iran.liara.run/public/${getRandomAvatarId(rankings[2]?.name)}`}
+                                            alt={rankings[2]?.name}
+                                            className="w-14 h-14 rounded-full border-4 border-orange-300 shadow-lg mx-auto mb-2"
+                                        />
+                                        {getMedalIcon(3)}
+                                    </div>
+                                    <div className="bg-gradient-to-t from-orange-400 to-orange-300 h-16 w-24 rounded-t-2xl flex flex-col justify-center items-center shadow-lg">
+                                        <div className="text-gray-900 font-bold text-xs">{rankings[2]?.name}</div>
+                                        <div className="text-orange-700 text-xs font-medium">{rankings[2]?.total_points} XP</div>
+                                    </div>
+                                </motion.div>
+                            </div>
+                        </motion.div>
+                    )}
+
+                   {/* Full Rankings List */}
+                    <motion.div 
+                        className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/20 overflow-hidden"
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.6 }}
+                    >
+                        <div className="p-4 md:p-6 bg-gradient-to-r from-yellow-500 via-yellow-400 to-yellow-300">
+                            <h2 className="text-xl md:text-2xl font-bold text-white flex flex-col sm:flex-row sm:items-center gap-2">
+                                <span>📊 Complete Rankings</span>
+                                <span className="text-xs md:text-sm bg-white/20 px-2 md:px-3 py-1 rounded-full self-start sm:self-auto">
+                                    {rankings.length} participants
+                                </span>
+                            </h2>
                         </div>
                         
-                        <div className="divide-y divide-gray-50">
-                            {rankings.map((item) => {
-                                const style = getRankStyle(item.rank);
+                        <motion.div 
+                            className="divide-y divide-gray-100"
+                            variants={staggerChildren}
+                            initial="initial"
+                            animate="animate"
+                        >
+                            {rankings.map((item, index) => {
+                                const style = getRankCardStyle(item.rank);
                                 const isTopThree = item.rank <= 3;
                                 
                                 return (
-                                    <div 
-                                        key={item.rank} 
-                                        className={`p-4 transition-all duration-200 hover:bg-gray-50 ${
-                                            isTopThree ? `${style.bg} ${style.shadow} shadow-lg` : 'bg-white'
+                                    <motion.div 
+                                        key={item.rank}
+                                        variants={fadeInUp}
+                                        className={`p-4 md:p-6 transition-all duration-300 hover:bg-gray-50/50 ${style.container} ${style.glow} ${
+                                            isTopThree ? style.scale : ''
                                         }`}
+                                        whileHover={{ scale: isTopThree ? 1.02 : 1.01 }}
                                     >
-                                        <div className="flex items-center justify-between">
-                                            <div className="flex items-center space-x-4">
-                                                {/* Rank Number */}
-                                                <div className={`
-                                                    w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold
-                                                    ${isTopThree ? style.rankBg + ' text-white' : 'bg-gray-100 text-gray-600'}
-                                                `}>
-                                                    {item.rank}
+                                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                                            {/* Left Section - Medal, Avatar, Name */}
+                                            <div className="flex items-center space-x-3 md:space-x-6">
+                                                {/* Medal/Rank */}
+                                                <div className="flex-shrink-0">
+                                                    {getMedalIcon(item.rank)}
                                                 </div>
 
-                                                {/* Avatar with Initials */}
-                                                <div className={`
-                                                    w-12 h-12 rounded-full flex items-center justify-center text-white font-semibold text-sm
-                                                    ${isTopThree ? 'bg-white/20' : getAvatarColor(item.rank)}
-                                                `}>
-                                                    {getInitials(item.name)}
-                                                </div>
+                                                {/* Avatar */}
+                                                <motion.div 
+                                                    className="flex-shrink-0"
+                                                    whileHover={{ scale: 1.1 }}
+                                                >
+                                                    <LoadingImage
+                                                        src={`https://avatar.iran.liara.run/public/${getRandomAvatarId(item.name)}`}
+                                                        alt={item.name}
+                                                        className={`w-12 h-12 md:w-16 md:h-16 rounded-full shadow-lg border-2 md:border-4 ${
+                                                            isTopThree ? 'border-white' : 'border-gray-200'
+                                                        }`}
+                                                    />
+                                                </motion.div>
 
                                                 {/* Name and Info */}
-                                                <div>
-                                                    <h3 className={`font-semibold ${isTopThree ? style.text : 'text-gray-900'}`}>
+                                                <div className="min-w-0 flex-1">
+                                                    <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-1 truncate">
                                                         {item.name}
+                                                        {item.rank <= 3 && (
+                                                            <span className="ml-2 text-base md:text-lg">
+                                                                {item.rank === 1 ? '👑' : item.rank === 2 ? '🥈' : '🥉'}
+                                                            </span>
+                                                        )}
                                                     </h3>
-                                                    <p className={`text-sm ${isTopThree ? style.text + ' opacity-80' : 'text-gray-500'}`}>
-                                                        {item.total_visits} kunjungan
-                                                    </p>
+                                                    
+                                                    {/* Mobile: Stack vertically, Desktop: Horizontal */}
+                                                    <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 text-xs md:text-sm text-gray-600">
+                                                        <span className="flex items-center gap-1">
+                                                            <span>📚</span>
+                                                            <span>{item.total_visits} kunjungan</span>
+                                                        </span>
+                                                        <span className="flex items-center gap-1">
+                                                            <span>📅</span>
+                                                            <span className="truncate">
+                                                                {new Date(item.last_visit).toLocaleDateString('id-ID', {
+                                                                    day: 'numeric',
+                                                                    month: 'short',
+                                                                    year: window.innerWidth < 640 ? undefined : 'numeric'
+                                                                })}
+                                                            </span>
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
 
-                                            {/* Points */}
-                                            <div className="text-right">
-                                                <div className={`font-bold text-lg ${isTopThree ? style.text : 'text-gray-900'}`}>
+                                            {/* Right Section - Points */}
+                                            <div className="text-center sm:text-right flex-shrink-0">
+                                                <motion.div 
+                                                    className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-950 bg-clip-text text-transparent"
+                                                    whileHover={{ scale: 1.1 }}
+                                                >
                                                     {item.total_points.toLocaleString()}
+                                                </motion.div>
+                                                <div className="text-xs md:text-sm text-gray-500 font-medium">
+                                                    XP Points
                                                 </div>
-                                                <div className={`text-sm ${isTopThree ? style.text + ' opacity-80' : 'text-gray-500'}`}>
-                                                    XP
-                                                </div>
+                                                {isTopThree && (
+                                                    <div className="inline-block mt-1 px-2 py-1 bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-xs font-bold rounded-full">
+                                                        TOP {item.rank}
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
-                                    </div>
+
+                                        {/* Mobile: Additional info bar */}
+                                        <div className="block sm:hidden mt-3 pt-3 border-t border-gray-100">
+                                            <div className="flex justify-between items-center text-xs text-gray-500">
+                                                <span>Ranking #{item.rank}</span>
+                                                <span>Total: {item.total_points.toLocaleString()} XP</span>
+                                            </div>
+                                        </div>
+                                    </motion.div>
                                 );
                             })}
-                        </div>
+                        </motion.div>
 
+                        {/* Empty State - Responsive */}
                         {rankings.length === 0 && (
-                            <div className="text-center py-16">
-                                <div className="text-6xl mb-4">📚</div>
-                                <h3 className="text-lg font-medium text-gray-900 mb-2">
-                                    Belum Ada Ranking
+                            <motion.div 
+                                className="text-center py-12 md:py-20 px-4"
+                                {...fadeInUp}
+                            >
+                                <div className="text-6xl md:text-8xl mb-4 md:mb-6">📚</div>
+                                <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 md:mb-4">
+                                    Belum Ada Champion
                                 </h3>
-                                <p className="text-gray-500">
+                                <p className="text-gray-600 text-base md:text-lg max-w-md mx-auto leading-relaxed">
                                     Ranking akan muncul setelah ada anak-anak yang berkunjung ke perpustakaan.
+                                    Jadilah yang pertama! 🚀
                                 </p>
-                            </div>
+                            </motion.div>
                         )}
-                    </div>
-
-                    {/* Info Card */}
-                    <div className="mt-8 bg-blue-50 border border-blue-200 rounded-xl p-6">
-                        <div className="flex items-start space-x-3">
-                            <div className="flex-shrink-0">
-                                <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
-                                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                </div>
-                            </div>
-                            <div>
-                                <h3 className="text-sm font-medium text-blue-900 mb-1">
-                                    Informasi Poin
-                                </h3>
-                                <div className="text-sm text-blue-800 space-y-1">
-                                    <p>• Hanya anak-anak yang mendapat poin</p>
-                                    <p>• Ranking diperbarui secara real-time</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    </motion.div>
                 </div>
             </div>
         </CompanyLayout>

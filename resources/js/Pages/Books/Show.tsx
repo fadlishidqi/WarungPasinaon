@@ -28,22 +28,6 @@ const BookShow: React.FC<BookShowProps> = ({ book }) => {
             <Navbar />
             
             <div className="min-h-screen bg-gray-50">
-                {/* Breadcrumb */}
-                <div className="bg-white border-b">
-                    <div className="max-w-7xl mx-auto px-6 lg:px-8 py-4">
-                        <nav className="text-sm">
-                            <Link href="/" className="text-gray-500 hover:text-green-600 transition-colors">
-                                Beranda
-                            </Link>
-                            <span className="mx-2 text-gray-400">/</span>
-                            <Link href="/buku-digital" className="text-gray-500 hover:text-green-600 transition-colors">
-                                Buku Digital
-                            </Link>
-                            <span className="mx-2 text-gray-400">/</span>
-                            <span className="text-gray-900 font-medium">{book.title}</span>
-                        </nav>
-                    </div>
-                </div>
 
                 {/* Main Content */}
                 <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
