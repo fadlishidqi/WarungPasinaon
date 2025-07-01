@@ -26,12 +26,11 @@ export default function LibraryAttendanceIndex() {
     const { props } = usePage();
     const [stats, setStats] = useState<AttendanceStats | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [currentTime, setCurrentTime] = useState(new Date().toTimeString().slice(0, 5));
 
     const { data, setData, post, processing, errors, reset } = useForm<FormData>({
         type: '',
         visit_date: new Date().toISOString().split('T')[0],
-        visit_time: new Date().toTimeString().slice(0, 5),
+        visit_time: '',
         child_name: '',
         child_address: '',
         general_name: '',
@@ -42,16 +41,6 @@ export default function LibraryAttendanceIndex() {
 
     useEffect(() => {
         fetchStats();
-        
-        // Update waktu setiap detik
-        const timeInterval = setInterval(() => {
-            const now = new Date();
-            const timeString = now.toTimeString().slice(0, 5);
-            setCurrentTime(timeString);
-            setData('visit_time', timeString);
-        }, 1000);
-
-        return () => clearInterval(timeInterval);
     }, []);
 
     const fetchStats = async () => {
@@ -71,11 +60,10 @@ export default function LibraryAttendanceIndex() {
         post('/daftar-hadir', {
             onSuccess: () => {
                 reset();
-                // Reset dengan waktu saat ini
                 setData({
                     type: '',
                     visit_date: new Date().toISOString().split('T')[0],
-                    visit_time: new Date().toTimeString().slice(0, 5),
+                    visit_time: '',
                     child_name: '',
                     child_address: '',
                     general_name: '',
@@ -168,8 +156,8 @@ export default function LibraryAttendanceIndex() {
                                 <div className="mt-1 text-sm text-blue-700">
                                     <ul className="list-disc pl-5 space-y-1">
                                         <li>Setiap orang hanya bisa mengisi daftar hadir sekali per hari</li>
-                                        <li>Waktu kunjungan otomatis mengikuti waktu saat ini</li>
                                         <li>Pastikan nama yang dimasukkan sudah benar</li>
+                                        <li>Isi waktu kunjungan sesuai dengan waktu kedatangan Anda</li>
                                     </ul>
                                 </div>
                             </div>
@@ -268,24 +256,21 @@ export default function LibraryAttendanceIndex() {
 
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                                            Waktu Kunjungan
+                                            Waktu Kunjungan *
                                         </label>
-                                        <div className="relative">
-                                            <input
-                                                type="time"
-                                                value={currentTime}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 cursor-not-allowed"
-                                                disabled
-                                            />
-                                            <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                                <svg className="h-4 w-4 text-gray-400 animate-pulse" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                </svg>
-                                            </div>
-                                        </div>
+                                        <input
+                                            type="time"
+                                            value={data.visit_time}
+                                            onChange={(e) => setData('visit_time', e.target.value)}
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            required
+                                        />
                                         <p className="mt-1 text-xs text-gray-500">
-                                            Waktu otomatis mengikuti waktu saat ini
+                                            Masukkan waktu kedatangan Anda
                                         </p>
+                                        {errors.visit_time && (
+                                            <p className="mt-1 text-sm text-red-600">{errors.visit_time}</p>
+                                        )}
                                     </div>
                                 </div>
                             )}
