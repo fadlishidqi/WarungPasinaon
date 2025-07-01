@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\KelasController;
+use App\Http\Controllers\LibraryAttendanceController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -42,5 +43,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/daftar-hadir', [LibraryAttendanceController::class, 'index'])->name('library.attendance');
+Route::post('/daftar-hadir', [LibraryAttendanceController::class, 'store'])->name('library.attendance.store');
+Route::get('/daftar-hadir/stats', [LibraryAttendanceController::class, 'getStats'])->name('library.attendance.stats');
 
 require __DIR__.'/auth.php';
