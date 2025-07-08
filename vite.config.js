@@ -10,4 +10,14 @@ export default defineConfig({
         }),
         react(),
     ],
+    optimizeDeps: {
+        include: ['pdfjs-dist'],
+        exclude: ['pdfjs-dist/build/pdf.worker.min.js']
+    },
+    define: {
+        global: 'globalThis',
+    },
+    worker: {
+        format: 'es'
+    }
 });
