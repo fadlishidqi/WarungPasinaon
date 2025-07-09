@@ -3,6 +3,7 @@ import { Head, Link } from '@inertiajs/react';
 import { PageProps } from '@/types';
 import Navbar from '@/Components/Navbar';
 import Footer from '@/Components/Footer';
+import { marked } from 'marked';
 
 interface Kegiatan {
     id: number;
@@ -21,6 +22,12 @@ interface Props extends PageProps {
     related: Kegiatan[];
 }
 
+// Configure marked options
+marked.setOptions({
+    breaks: true, // Convert \n to <br>
+    gfm: true, // GitHub Flavored Markdown
+});
+
 export default function KegiatanShow({ auth, kegiatan, related }: Props) {
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString('id-ID', {
@@ -29,6 +36,9 @@ export default function KegiatanShow({ auth, kegiatan, related }: Props) {
             day: 'numeric'
         });
     };
+
+    // Process markdown content to HTML
+    const processedContent = marked(kegiatan.content || '');
 
     return (
         <>
@@ -94,8 +104,8 @@ export default function KegiatanShow({ auth, kegiatan, related }: Props) {
                        {/* Content */}
                        <div className="prose prose-sm sm:prose-base md:prose-lg max-w-none mb-12 sm:mb-16 prose-headings:font-semibold prose-a:text-green-600 hover:prose-a:text-green-700 prose-a:transition-colors prose-img:rounded-lg sm:prose-img:rounded-xl prose-img:shadow sm:prose-img:shadow-md">
                            <div 
-                               className="text-gray-700 leading-relaxed"
-                               dangerouslySetInnerHTML={{ __html: kegiatan.content }}
+                               className="content-area text-gray-700 leading-relaxed"
+                               dangerouslySetInnerHTML={{ __html: processedContent }}
                            />
                        </div>
                    </div>

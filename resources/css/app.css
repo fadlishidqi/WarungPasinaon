@@ -166,3 +166,191 @@
         line-height: 2.25rem;
     }
 }
+
+/* Content area styling untuk markdown yang sudah diproses */
+.content-area {
+    line-height: 1.75;
+}
+
+.content-area p {
+    margin-bottom: 1.5rem;
+    color: #374151;
+}
+
+.content-area h1,
+.content-area h2,
+.content-area h3,
+.content-area h4,
+.content-area h5,
+.content-area h6 {
+    font-weight: 600;
+    color: #111827;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.content-area h1 {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+}
+
+.content-area h2 {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+}
+
+.content-area h3 {
+    font-size: 1.5rem;
+    line-height: 2rem;
+}
+
+.content-area h4 {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+}
+
+.content-area h5 {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+}
+
+.content-area h6 {
+    font-size: 1rem;
+    line-height: 1.5rem;
+}
+
+.content-area ul,
+.content-area ol {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+}
+
+.content-area ul {
+    list-style-type: disc;
+}
+
+.content-area ol {
+    list-style-type: decimal;
+}
+
+.content-area li {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.content-area blockquote {
+    border-left: 4px solid #10b981;
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: #6b7280;
+}
+
+.content-area strong {
+    font-weight: 600;
+    color: #111827;
+}
+
+.content-area em {
+    font-style: italic;
+}
+
+.content-area a {
+    color: #059669;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.content-area a:hover {
+    color: #047857;
+    text-decoration: underline;
+}
+
+.content-area img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    margin: 1.5rem 0;
+}
+
+@media (min-width: 640px) {
+    .content-area img {
+        border-radius: 1rem;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+}
+
+.content-area pre {
+    background-color: #f3f4f6;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    font-family: 'Courier New', monospace;
+}
+
+.content-area code {
+    background-color: #f3f4f6;
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
+    font-size: 0.875em;
+    font-family: 'Courier New', monospace;
+}
+
+.content-area pre code {
+    background-color: transparent;
+    padding: 0;
+}
+
+.content-area table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+}
+
+.content-area th,
+.content-area td {
+    border: 1px solid #d1d5db;
+    padding: 0.75rem;
+    text-align: left;
+}
+
+.content-area th {
+    background-color: #f9fafb;
+    font-weight: 600;
+}
+
+.content-area hr {
+    margin: 2rem 0;
+    border: none;
+    border-top: 1px solid #d1d5db;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .content-area h1 {
+        font-size: 1.875rem;
+        line-height: 2.25rem;
+    }
+    
+    .content-area h2 {
+        font-size: 1.5rem;
+        line-height: 2rem;
+    }
+    
+    .content-area h3 {
+        font-size: 1.25rem;
+        line-height: 1.75rem;
+    }
+    
+    .content-area ul,
+    .content-area ol {
+        padding-left: 1rem;
+    }
+    
+    .content-area blockquote {
+        padding-left: 1rem;
+    }
+}
