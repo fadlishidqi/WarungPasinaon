@@ -13,17 +13,17 @@ class KegiatanController extends Controller
     {
         $category = $request->get('category', 'literasi');
         
-        $kegiatan = Kegiatan::published()
-            ->byCategory($category)
+        $kegiatan = Kegiatan::where('status', 'published')
+            ->where('category', $category)
             ->orderBy('date', 'desc')
             ->get();
 
         // Get counts for each category
         $categoryCounts = [
-            'literasi' => Kegiatan::published()->byCategory('literasi')->count(),
-            'keagamaan' => Kegiatan::published()->byCategory('keagamaan')->count(),
-            'kesehatan' => Kegiatan::published()->byCategory('kesehatan')->count(),
-            'umkm' => Kegiatan::published()->byCategory('umkm')->count(),
+            'literasi' => Kegiatan::where('status', 'published')->where('category', 'literasi')->count(),
+            'keagamaan' => Kegiatan::where('status', 'published')->where('category', 'keagamaan')->count(),
+            'kesehatan' => Kegiatan::where('status', 'published')->where('category', 'kesehatan')->count(),
+            'umkm' => Kegiatan::where('status', 'published')->where('category', 'umkm')->count(),
         ];
 
         return Inertia::render('Kegiatan/Index', [
@@ -33,14 +33,18 @@ class KegiatanController extends Controller
         ]);
     }
 
-    public function show(Kegiatan $kegiatan)
+    public function show($slug)
     {
-        if ($kegiatan->status !== 'published') {
-            abort(404);
-        }
+        // Cari kegiatan berdasarkan slug
+        $kegiatan = Kegiatan::where('slug', $slug)
+            ->where('status', 'published')
+            ->firstOrFail();
 
-        $related = Kegiatan::published()
-            ->byCategory($kegiatan->category)
+        // Pastikan tags adalah array
+        $kegiatan->tags = is_array($kegiatan->tags) ? $kegiatan->tags : [];
+
+        $related = Kegiatan::where('status', 'published')
+            ->where('category', $kegiatan->category)
             ->where('id', '!=', $kegiatan->id)
             ->orderBy('date', 'desc')
             ->take(3)

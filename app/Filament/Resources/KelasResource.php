@@ -19,15 +19,10 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class KelasResource extends Resource
 {
     protected static ?string $model = Kelas::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
-
     protected static ?string $navigationLabel = 'Kelas';
-
     protected static ?string $pluralModelLabel = 'Kelas';
-
     protected static ?string $modelLabel = 'Kelas';
-
     protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
@@ -44,19 +39,20 @@ class KelasResource extends Resource
 
                         Forms\Components\Textarea::make('deskripsi')
                             ->required()
-                            ->rows(4)
+                            ->rows(3)
+                            ->maxLength(500) 
                             ->columnSpanFull(),
 
                         Forms\Components\FileUpload::make('gambar')
                             ->image()
                             ->directory('kelas')
-                            ->imageEditor()
-                            ->imageEditorAspectRatios([
-                                '16:9',
-                                '4:3',
-                                '1:1',
-                            ])
-                            ->columnSpanFull(),
+                            ->maxSize(1024)
+                            ->imageResizeMode('cover')
+                            ->imageResizeTargetWidth('600')
+                            ->imageResizeTargetHeight('400')
+                            ->acceptedFileTypes(['image/jpeg', 'image/png'])
+                            ->columnSpanFull()
+                            ->helperText('Maksimal 1MB, akan di-resize ke 600x400px'),
 
                         Forms\Components\Select::make('kategori')
                             ->options([
@@ -65,13 +61,14 @@ class KelasResource extends Resource
                                 'Menulis' => 'Menulis',
                             ])
                             ->required()
-                            ->searchable(),
+                            ->native(false),
 
                         Forms\Components\TextInput::make('grup_wa')
                             ->label('Link Grup WhatsApp')
                             ->url()
                             ->prefixIcon('heroicon-m-device-phone-mobile')
                             ->placeholder('https://chat.whatsapp.com/...')
+                            ->maxLength(255)
                             ->columnSpanFull(),
                     ])
                     ->columns(2),
@@ -95,14 +92,15 @@ class KelasResource extends Resource
                                 'Sabtu' => 'Sabtu',
                                 'Minggu' => 'Minggu',
                             ])
-                            ->required(),
+                            ->required()
+                            ->native(false),
 
                         Forms\Components\TextInput::make('kapasitas')
                             ->required()
                             ->numeric()
                             ->default(20)
                             ->minValue(1)
-                            ->maxValue(100),
+                            ->maxValue(50),
 
                         Forms\Components\Toggle::make('is_active')
                             ->label('Status Aktif')
@@ -118,25 +116,29 @@ class KelasResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('gambar')
-                    ->size(60)
+                    ->size(40)
                     ->circular(),
 
                 Tables\Columns\TextColumn::make('nama')
                     ->searchable()
                     ->sortable()
-                    ->weight('bold'),
+                    ->weight('bold')
+                    ->limit(25)
+                    ->tooltip(function (Tables\Columns\TextColumn $column): ?string {
+                        $state = $column->getState();
+                        return strlen($state) > 25 ? $state : null;
+                    }),
 
                 Tables\Columns\TextColumn::make('kategori')
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn (string $state): string => [
                         'Tari' => 'success',
                         'Masak' => 'warning',
                         'Menulis' => 'info',
-                        default => 'gray',
-                    }),
+                    ][$state] ?? 'gray'),
 
                 Tables\Columns\TextColumn::make('tanggal')
-                    ->date('d M Y')
+                    ->date('d/m/Y')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('hari')
@@ -145,7 +147,9 @@ class KelasResource extends Resource
 
                 Tables\Columns\TextColumn::make('pendaftarans_count')
                     ->label('Terdaftar')
-                    ->counts('pendaftarans')
+                    ->getStateUsing(function ($record) {
+                        return $record->pendaftarans_count ?? $record->pendaftarans()->count();
+                    })
                     ->badge()
                     ->color('success'),
 
@@ -159,7 +163,7 @@ class KelasResource extends Resource
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime('d M Y H:i')
+                    ->dateTime('d/m/Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
@@ -169,31 +173,41 @@ class KelasResource extends Resource
                         'Tari' => 'Tari',
                         'Masak' => 'Masak', 
                         'Menulis' => 'Menulis',
-                    ]),
+                    ])
+                    ->native(false),
 
                 SelectFilter::make('is_active')
                     ->label('Status')
                     ->options([
                         1 => 'Aktif',
                         0 => 'Tidak Aktif',
-                    ]),
+                    ])
+                    ->native(false),
 
                 Filter::make('tanggal_akan_datang')
                     ->label('Kelas Akan Datang')
-                    ->query(fn (Builder $query): Builder => $query->where('tanggal', '>=', now()))
+                    ->query(fn (Builder $query): Builder => $query->where('tanggal', '>=', now()->toDateString()))
                     ->default(),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ViewAction::make()
+                    ->iconButton(),
+                Tables\Actions\EditAction::make()
+                    ->iconButton(),
+                Tables\Actions\DeleteAction::make()
+                    ->iconButton(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
-            ->defaultSort('tanggal', 'asc');
+            ->defaultSort('tanggal', 'asc')
+            ->defaultPaginationPageOption(5)
+            ->poll(null)
+            ->deferLoading()
+            ->striped(false)
+            ->persistFiltersInSession(false);
     }
 
     public static function getRelations(): array
@@ -215,7 +229,9 @@ class KelasResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::where('is_active', true)->count();
+        return cache()->remember('kelas_active_count', 300, function () {
+            return static::getModel()::where('is_active', true)->count();
+        });
     }
 
     public static function getNavigationBadgeColor(): string|array|null

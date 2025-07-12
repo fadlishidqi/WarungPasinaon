@@ -1,65 +1,59 @@
 <?php
 // app/Models/Kegiatan.php
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 
 class Kegiatan extends Model
 {
-    use HasFactory, SoftDeletes;
-
     protected $table = 'kegiatan';
-
+    
     protected $fillable = [
-        'title',
-        'slug',
-        'description',
-        'content',
-        'image',
-        'date',
-        'status',
-        'meta_description',
-        'tags',
-        'category'
+        'title', 'slug', 'category', 'description', 'date', 'status',
+        'image', 'content', 'meta_description', 'tags'
     ];
 
     protected $casts = [
         'date' => 'date',
-        'tags' => 'array'
+        'tags' => 'array',
     ];
 
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
-
-    public function scopePublished($query)
+    // Scope methods - pastikan nama method benar
+    public function scopePublished(Builder $query): Builder
     {
         return $query->where('status', 'published');
     }
 
-    public function scopeByCategory($query, $category)
+    public function scopeByCategory(Builder $query, $category): Builder
     {
         return $query->where('category', $category);
     }
 
-    public function getExcerptAttribute()
+    // Accessor untuk memastikan tags selalu array
+    public function getTagsAttribute($value)
     {
-        return substr(strip_tags($this->content), 0, 150) . '...';
+        if (is_string($value)) {
+            return json_decode($value, true) ?: [];
+        }
+        
+        if (is_array($value)) {
+            return $value;
+        }
+        
+        return [];
     }
 
-    public static function getCategoryLabel($category)
+    // Mutator untuk memastikan tags disimpan sebagai JSON
+    public function setTagsAttribute($value)
     {
-        $labels = [
-            'literasi' => 'Literasi',
-            'keagamaan' => 'Keagamaan',
-            'kesehatan' => 'Kesehatan',
-            'umkm' => 'UMKM'
-        ];
-
-        return $labels[$category] ?? $category;
+        if (is_array($value)) {
+            $this->attributes['tags'] = json_encode($value);
+        } elseif (is_string($value)) {
+            $tags = array_map('trim', explode(',', $value));
+            $this->attributes['tags'] = json_encode($tags);
+        } else {
+            $this->attributes['tags'] = json_encode([]);
+        }
     }
 }

@@ -20,15 +20,10 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class PendaftaranKelasResource extends Resource
 {
     protected static ?string $model = PendaftaranKelas::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
-
     protected static ?string $navigationLabel = 'Pendaftaran Kelas';
-
     protected static ?string $pluralModelLabel = 'Pendaftaran Kelas';
-
     protected static ?string $modelLabel = 'Pendaftaran Kelas';
-
     protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
@@ -40,10 +35,15 @@ class PendaftaranKelasResource extends Resource
                         Forms\Components\Select::make('kelas_id')
                             ->label('Kelas')
                             ->relationship('kelas', 'nama')
-                            ->options(Kelas::where('is_active', true)->pluck('nama', 'id'))
+                            ->options(function () {
+                                return Kelas::where('is_active', true)
+                                    ->orderBy('nama')
+                                    ->limit(50)
+                                    ->pluck('nama', 'id');
+                            })
                             ->required()
                             ->searchable()
-                            ->preload()
+                            ->native(false)
                             ->columnSpanFull(),
                     ]),
 
@@ -61,7 +61,8 @@ class PendaftaranKelasResource extends Resource
 
                         Forms\Components\Textarea::make('alamat')
                             ->required()
-                            ->rows(3)
+                            ->rows(2)
+                            ->maxLength(300)
                             ->columnSpanFull(),
                     ])
                     ->columns(2),
@@ -76,55 +77,60 @@ class PendaftaranKelasResource extends Resource
                     ->label('Kelas')
                     ->searchable()
                     ->sortable()
-                    ->weight('bold'),
+                    ->weight('bold')
+                    ->limit(25)
+                    ->tooltip(function (Tables\Columns\TextColumn $column): ?string {
+                        $state = $column->getState();
+                        return strlen($state) > 25 ? $state : null;
+                    }),
 
                 Tables\Columns\TextColumn::make('nama')
                     ->label('Nama Peserta')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->limit(20)
+                    ->tooltip(function (Tables\Columns\TextColumn $column): ?string {
+                        $state = $column->getState();
+                        return strlen($state) > 20 ? $state : null;
+                    }),
 
                 Tables\Columns\TextColumn::make('no_telp')
                     ->label('No. Telepon')
                     ->searchable()
                     ->copyable()
-                    ->copyMessage('Nomor telepon disalin!')
-                    ->icon('heroicon-m-phone'),
+                    ->copyMessage('Nomor telepon disalin!'),
 
                 Tables\Columns\TextColumn::make('alamat')
-                    ->limit(50)
+                    ->limit(30)
                     ->tooltip(function (Tables\Columns\TextColumn $column): ?string {
                         $state = $column->getState();
-                        if (strlen($state) <= 50) {
-                            return null;
-                        }
-                        return $state;
+                        return strlen($state) > 30 ? $state : null;
                     }),
 
                 Tables\Columns\TextColumn::make('kelas.tanggal')
                     ->label('Tanggal Kelas')
-                    ->date('d M Y')
+                    ->date('d/m/Y')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('kelas.kategori')
                     ->label('Kategori')
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn (string $state): string => [
                         'Tari' => 'success',
                         'Masak' => 'warning',
                         'Menulis' => 'info',
-                        default => 'gray',
-                    }),
+                    ][$state] ?? 'gray'),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Tanggal Daftar')
-                    ->dateTime('d M Y H:i')
+                    ->dateTime('d/m/Y H:i')
                     ->sortable(),
             ])
             ->filters([
                 SelectFilter::make('kelas')
                     ->relationship('kelas', 'nama')
                     ->searchable()
-                    ->preload(),
+                    ->native(false),
 
                 SelectFilter::make('kategori')
                     ->options([
@@ -132,6 +138,7 @@ class PendaftaranKelasResource extends Resource
                         'Masak' => 'Masak', 
                         'Menulis' => 'Menulis',
                     ])
+                    ->native(false)
                     ->query(function (Builder $query, array $data): Builder {
                         return $query->when(
                             $data['value'],
@@ -141,18 +148,23 @@ class PendaftaranKelasResource extends Resource
 
                 Filter::make('bulan_ini')
                     ->label('Daftar Bulan Ini')
-                    ->query(fn (Builder $query): Builder => $query->whereMonth('created_at', now()->month))
+                    ->query(fn (Builder $query): Builder => $query->whereMonth('created_at', now()->month)
+                        ->whereYear('created_at', now()->year))
                     ->default(),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ViewAction::make()
+                    ->iconButton(),
+                Tables\Actions\EditAction::make()
+                    ->iconButton(),
+                Tables\Actions\DeleteAction::make()
+                    ->iconButton(),
 
                 Tables\Actions\Action::make('whatsapp')
-                    ->label('WhatsApp')
+                    ->label('WA')
                     ->icon('heroicon-m-chat-bubble-left-right')
                     ->color('success')
+                    ->iconButton()
                     ->url(fn (PendaftaranKelas $record): string => 
                         "https://wa.me/" . preg_replace('/[^0-9]/', '', $record->no_telp)
                     )
@@ -163,7 +175,12 @@ class PendaftaranKelasResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
-            ->defaultSort('created_at', 'desc');
+            ->defaultSort('created_at', 'desc')
+            ->defaultPaginationPageOption(5) // Yang penting ini untuk limit data
+            ->poll(null) // Disable auto-refresh
+            ->deferLoading() // Load data on demand
+            ->striped(false) // Disable striping
+            ->persistFiltersInSession(false); // Jangan simpan filter di session
     }
 
     public static function getRelations(): array
@@ -185,7 +202,11 @@ class PendaftaranKelasResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::whereMonth('created_at', now()->month)->count();
+        return cache()->remember('pendaftaran_kelas_month_count', 300, function () {
+            return static::getModel()::whereMonth('created_at', now()->month)
+                ->whereYear('created_at', now()->year)
+                ->count();
+        });
     }
 
     public static function getNavigationBadgeColor(): string|array|null

@@ -56,12 +56,13 @@ class BookResource extends Resource
                                 'agama' => 'Agama',
                             ])
                             ->required()
-                            ->default('pendidikan'),
+                            ->default('pendidikan')
+                            ->native(false),
 
                         Forms\Components\Textarea::make('description')
                             ->label('Deskripsi')
                             ->required()
-                            ->rows(4)
+                            ->rows(3)
                             ->columnSpanFull(),
                     ])
                     ->columns(2),
@@ -94,7 +95,8 @@ class BookResource extends Resource
                                 'published' => 'Published',
                             ])
                             ->required()
-                            ->default('draft'),
+                            ->default('draft')
+                            ->native(false),
 
                         Forms\Components\TextInput::make('file_size')
                             ->label('Ukuran File')
@@ -109,24 +111,25 @@ class BookResource extends Resource
                             ->label('Cover Buku')
                             ->image()
                             ->directory('books/covers')
-                            ->maxSize(2048)
+                            ->maxSize(1024)
                             ->imageResizeMode('cover')
                             ->imageCropAspectRatio('3:4')
-                            ->imageResizeTargetWidth('400')
-                            ->imageResizeTargetHeight('533')
-                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->imageResizeTargetWidth('300')
+                            ->imageResizeTargetHeight('400')
+                            ->acceptedFileTypes(['image/jpeg', 'image/png'])
                             ->uploadingMessage('Mengupload cover...')
                             ->deleteUploadedFileUsing(function ($file) {
                                 if (Storage::disk('public')->exists($file)) {
                                     Storage::disk('public')->delete($file);
                                 }
-                            }),
+                            })
+                            ->helperText('Maksimal 1MB, akan di-resize ke 300x400px'),
 
                         Forms\Components\FileUpload::make('pdf_file')
                             ->label('File PDF')
                             ->acceptedFileTypes(['application/pdf'])
                             ->directory('books/pdfs')
-                            ->maxSize(51200) // 50MB in KB
+                            ->maxSize(20480)
                             ->required()
                             ->uploadingMessage('Mengupload file PDF...')
                             ->uploadProgressIndicatorPosition('left')
@@ -137,7 +140,7 @@ class BookResource extends Resource
                                     Storage::disk('public')->delete($file);
                                 }
                             })
-                            ->helperText('Upload file PDF dengan ukuran maksimal 50MB'),
+                            ->helperText('Upload file PDF dengan ukuran maksimal 20MB'),
                     ])
                     ->columns(1),
 
@@ -146,34 +149,48 @@ class BookResource extends Resource
                         Forms\Components\TagsInput::make('tags')
                             ->label('Tags')
                             ->placeholder('Tambahkan tag...')
-                            ->columnSpanFull(),
+                            ->columnSpanFull()
+                            ->separator(',')
+                            ->splitKeys(['Tab', ',', ' ']),
                     ]),
             ]);
     }
 
-    // ... bagian table dan lainnya tetap sama seperti sebelumnya
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('cover_image')
                     ->label('Cover')
-                    ->size(60),
+                    ->size(50)
+                    ->defaultImageUrl(null),
                 
                 Tables\Columns\TextColumn::make('title')
                     ->label('Judul')
                     ->searchable()
                     ->sortable()
-                    ->limit(30),
+                    ->limit(25)
+                    ->tooltip(function (Tables\Columns\TextColumn $column): ?string {
+                        $state = $column->getState();
+                        return strlen($state) > 25 ? $state : null;
+                    }),
 
                 Tables\Columns\TextColumn::make('author')
                     ->label('Penulis')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->limit(20),
 
                 Tables\Columns\BadgeColumn::make('category')
                     ->label('Kategori')
-                    ->formatStateUsing(fn (string $state): string => Book::getCategoryLabel($state))
+                    ->formatStateUsing(fn (string $state): string => [
+                        'fiksi' => 'Fiksi',
+                        'non-fiksi' => 'Non-Fiksi', 
+                        'pendidikan' => 'Pendidikan',
+                        'sejarah' => 'Sejarah',
+                        'teknologi' => 'Teknologi',
+                        'agama' => 'Agama',
+                    ][$state] ?? $state)
                     ->colors([
                         'primary' => 'fiksi',
                         'success' => 'non-fiksi',
@@ -201,11 +218,12 @@ class BookResource extends Resource
                     ]),
 
                 Tables\Columns\TextColumn::make('file_size')
-                    ->label('Ukuran'),
+                    ->label('Ukuran')
+                    ->toggleable(),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Dibuat')
-                    ->dateTime()
+                    ->dateTime('d/m/Y')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
@@ -219,19 +237,22 @@ class BookResource extends Resource
                         'sejarah' => 'Sejarah',
                         'teknologi' => 'Teknologi',
                         'agama' => 'Agama',
-                    ]),
+                    ])
+                    ->native(false),
 
                 Tables\Filters\SelectFilter::make('status')
                     ->options([
                         'draft' => 'Draft',
                         'published' => 'Published',
-                    ]),
+                    ])
+                    ->native(false),
 
                 Tables\Filters\Filter::make('published_year')
                     ->form([
                         Forms\Components\TextInput::make('year')
                             ->label('Tahun')
-                            ->numeric(),
+                            ->numeric()
+                            ->maxLength(4),
                     ])
                     ->query(function ($query, array $data) {
                         return $query->when(
@@ -241,16 +262,24 @@ class BookResource extends Resource
                     }),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ViewAction::make()
+                    ->iconButton(),
+                Tables\Actions\EditAction::make()
+                    ->iconButton(),
+                Tables\Actions\DeleteAction::make()
+                    ->iconButton(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
-            ->defaultSort('created_at', 'desc');
+            ->defaultSort('created_at', 'desc')
+            ->defaultPaginationPageOption(5)
+            ->poll(null)
+            ->deferLoading()
+            ->striped(false)
+            ->persistFiltersInSession(false);
     }
 
     public static function getPages(): array

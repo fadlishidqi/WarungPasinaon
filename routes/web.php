@@ -18,7 +18,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/kegiatan', [KegiatanController::class, 'index'])->name('kegiatan.index');
-Route::get('/kegiatan/{kegiatan}', [KegiatanController::class, 'show'])->name('kegiatan.show');
+Route::get('/kegiatan/{slug}', [KegiatanController::class, 'show'])->name('kegiatan.show');
 
 Route::get('/buku-digital', [App\Http\Controllers\BookController::class, 'index'])->name('books.index');
 Route::get('/buku-digital/{book}', [App\Http\Controllers\BookController::class, 'show'])->name('books.show');

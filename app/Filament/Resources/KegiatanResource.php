@@ -49,18 +49,21 @@ class KegiatanResource extends Resource
                                 'umkm' => 'UMKM',
                             ])
                             ->required()
-                            ->default('literasi'),
+                            ->default('literasi')
+                            ->native(false),
 
                         Forms\Components\Textarea::make('description')
                             ->label('Deskripsi Singkat')
                             ->required()
                             ->rows(3)
-                            ->columnSpanFull(),
+                            ->columnSpanFull()
+                            ->maxLength(500),
 
                         Forms\Components\DatePicker::make('date')
                             ->label('Tanggal Kegiatan')
                             ->required()
-                            ->default(now()),
+                            ->default(now())
+                            ->native(false),
 
                         Forms\Components\Select::make('status')
                             ->label('Status')
@@ -69,7 +72,8 @@ class KegiatanResource extends Resource
                                 'published' => 'Published',
                             ])
                             ->required()
-                            ->default('draft'),
+                            ->default('draft')
+                            ->native(false),
                     ])
                     ->columns(2),
 
@@ -79,13 +83,29 @@ class KegiatanResource extends Resource
                             ->label('Gambar Utama')
                             ->image()
                             ->directory('kegiatan')
-                            ->maxSize(2048)
-                            ->columnSpanFull(),
+                            ->maxSize(1024)
+                            ->imageResizeMode('cover')
+                            ->imageResizeTargetWidth('800')
+                            ->imageResizeTargetHeight('600') 
+                            ->acceptedFileTypes(['image/jpeg', 'image/png'])
+                            ->columnSpanFull()
+                            ->helperText('Maksimal 1MB, akan di-resize ke 800x600px'),
 
-                        Forms\Components\MarkdownEditor::make('content')
+                        Forms\Components\RichEditor::make('content')
                             ->label('Konten')
                             ->required()
-                            ->columnSpanFull(),
+                            ->columnSpanFull()
+                            ->toolbarButtons([
+                                'bold',
+                                'italic',
+                                'underline',
+                                'bulletList',
+                                'orderedList',
+                                'link',
+                                'undo',
+                                'redo',
+                            ])
+                            ->maxLength(10000),
                     ]),
 
                 Forms\Components\Section::make('SEO & Tags')
@@ -97,7 +117,9 @@ class KegiatanResource extends Resource
 
                         Forms\Components\TagsInput::make('tags')
                             ->label('Tags')
-                            ->columnSpanFull(),
+                            ->columnSpanFull()
+                            ->separator(',')
+                            ->splitKeys(['Tab', ',', ' ']),
                     ]),
             ]);
     }
@@ -107,22 +129,28 @@ class KegiatanResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
-                    ->label('Gambar'),
+                    ->label('Gambar')
+                    ->size(40)
+                    ->defaultImageUrl(null),
                 
                 Tables\Columns\TextColumn::make('title')
                     ->label('Judul')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->limit(30)
+                    ->tooltip(function (Tables\Columns\TextColumn $column): ?string {
+                        $state = $column->getState();
+                        return strlen($state) > 30 ? $state : null;
+                    }),
 
                 Tables\Columns\BadgeColumn::make('category')
                     ->label('Kategori')
-                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                    ->formatStateUsing(fn (string $state): string => [
                         'literasi' => 'Literasi',
                         'keagamaan' => 'Keagamaan',
                         'kesehatan' => 'Kesehatan',
                         'umkm' => 'UMKM',
-                        default => $state,
-                    })
+                    ][$state] ?? $state)
                     ->colors([
                         'primary' => 'literasi',
                         'success' => 'keagamaan',
@@ -132,7 +160,7 @@ class KegiatanResource extends Resource
 
                 Tables\Columns\TextColumn::make('date')
                     ->label('Tanggal')
-                    ->date()
+                    ->date('d/m/Y')
                     ->sortable(),
 
                 Tables\Columns\BadgeColumn::make('status')
@@ -144,7 +172,7 @@ class KegiatanResource extends Resource
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Dibuat')
-                    ->dateTime()
+                    ->dateTime('d/m/Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
@@ -156,25 +184,54 @@ class KegiatanResource extends Resource
                         'keagamaan' => 'Keagamaan',
                         'kesehatan' => 'Kesehatan',
                         'umkm' => 'UMKM',
-                    ]),
+                    ])
+                    ->native(false),
 
                 Tables\Filters\SelectFilter::make('status')
                     ->options([
                         'draft' => 'Draft',
                         'published' => 'Published',
-                    ]),
+                    ])
+                    ->native(false),
+
+                Tables\Filters\Filter::make('date_range')
+                    ->form([
+                        Forms\Components\DatePicker::make('from')
+                            ->label('Dari Tanggal'),
+                        Forms\Components\DatePicker::make('until')
+                            ->label('Sampai Tanggal'),
+                    ])
+                    ->query(function ($query, array $data) {
+                        return $query
+                            ->when(
+                                $data['from'],
+                                fn ($query) => $query->whereDate('date', '>=', $data['from'])
+                            )
+                            ->when(
+                                $data['until'],
+                                fn ($query) => $query->whereDate('date', '<=', $data['until'])
+                            );
+                    }),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ViewAction::make()
+                    ->iconButton(),
+                Tables\Actions\EditAction::make()
+                    ->iconButton(),
+                Tables\Actions\DeleteAction::make()
+                    ->iconButton(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
-            ->defaultSort('date', 'desc');
+            ->defaultSort('date', 'desc')
+            ->defaultPaginationPageOption(5)
+            ->poll(null)
+            ->deferLoading()
+            ->striped(false)
+            ->persistFiltersInSession(false);
     }
 
     public static function getPages(): array
