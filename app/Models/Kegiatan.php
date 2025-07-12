@@ -1,11 +1,11 @@
 <?php
-// app/Models/Kegiatan.php
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 class Kegiatan extends Model
 {
@@ -27,15 +27,45 @@ class Kegiatan extends Model
     ];
 
     protected $casts = [
-        'date' => 'date',
-        'tags' => 'array'
+        'tags' => 'array',
+        'date' => 'date'
     ];
 
-    public function getRouteKeyName()
+    // Auto generate slug saat creating
+    protected static function boot()
     {
-        return 'slug';
+        parent::boot();
+
+        static::creating(function ($kegiatan) {
+            if (empty($kegiatan->slug)) {
+                $kegiatan->slug = static::generateUniqueSlug($kegiatan->title);
+            }
+        });
+
+        static::updating(function ($kegiatan) {
+            if ($kegiatan->isDirty('title')) {
+                $kegiatan->slug = static::generateUniqueSlug($kegiatan->title, $kegiatan->id);
+            }
+        });
     }
 
+    public static function generateUniqueSlug($title, $id = null)
+    {
+        $slug = Str::slug($title);
+        $originalSlug = $slug;
+        $counter = 1;
+
+        while (static::where('slug', $slug)->when($id, function($query, $id) {
+            return $query->where('id', '!=', $id);
+        })->exists()) {
+            $slug = $originalSlug . '-' . $counter;
+            $counter++;
+        }
+
+        return $slug;
+    }
+
+    // Scopes
     public function scopePublished($query)
     {
         return $query->where('status', 'published');
@@ -46,20 +76,9 @@ class Kegiatan extends Model
         return $query->where('category', $category);
     }
 
-    public function getExcerptAttribute()
+    // Accessor untuk format tanggal
+    public function getFormattedDateAttribute()
     {
-        return substr(strip_tags($this->content), 0, 150) . '...';
-    }
-
-    public static function getCategoryLabel($category)
-    {
-        $labels = [
-            'literasi' => 'Literasi',
-            'keagamaan' => 'Keagamaan',
-            'kesehatan' => 'Kesehatan',
-            'umkm' => 'UMKM'
-        ];
-
-        return $labels[$category] ?? $category;
+        return $this->date->format('d M Y');
     }
 }

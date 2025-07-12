@@ -26,12 +26,24 @@ export default function Authenticated({
                                 </Link>
                             </div>
 
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink
-                                    href={route('dashboard')}
-                                    active={route().current('dashboard')}
-                                >
+                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                <NavLink href={route('admin.dashboard')} active={route().current('admin.dashboard')}>
                                     Dashboard
+                                </NavLink>
+                                <NavLink href={route('admin.kegiatan.index')} active={route().current('admin.kegiatan.*')}>
+                                    Kegiatan
+                                </NavLink>
+                                <NavLink href={route('admin.kelas.index')} active={route().current('admin.kelas.*')}>
+                                    Kelas
+                                </NavLink>
+                                <NavLink href={route('admin.books.index')} active={route().current('admin.books.*')}>
+                                    Buku Digital
+                                </NavLink>
+                                <NavLink href={route('admin.attendance.index')} active={route().current('admin.attendance.*')}>
+                                    Kehadiran
+                                </NavLink>
+                                <NavLink href={route('admin.participants.index')} active={route().current('admin.participants.*')}>
+                                    Partisipan
                                 </NavLink>
                             </div>
                         </div>

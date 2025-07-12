@@ -9,10 +9,11 @@ interface Kegiatan {
   title: string
   slug: string
   description: string
-  image: string
+  image: string | null
   date: string
+  formatted_date: string
   category: string
-  tags: string[]
+  status: string
 }
 
 interface Props extends PageProps {
@@ -53,7 +54,7 @@ export default function KegiatanIndex({ auth, kegiatan, currentCategory, categor
     })
   }
 
-  // Animation variants - PERBAIKAN TIPE
+  // Animation variants
   const fadeInUp = {
     initial: { opacity: 0, y: 30 },
     animate: { opacity: 1, y: 0 }
@@ -84,7 +85,7 @@ export default function KegiatanIndex({ auth, kegiatan, currentCategory, categor
       scale: 1,
       transition: { 
         duration: 0.5, 
-        ease: "easeOut" // Gunakan string predefined
+        ease: "easeOut"
       }
     },
     exit: { 
@@ -262,7 +263,7 @@ export default function KegiatanIndex({ auth, kegiatan, currentCategory, categor
                           transition={{ duration: 0.4, delay: 0.5 }}
                         >
                           <Link
-                            href={`/kegiatan/${item.slug}`}
+                            href={route('kegiatan.show', item.slug)}
                             className="inline-flex items-center text-red-500 hover:text-red-600 font-medium text-sm transition-colors duration-200 group"
                           >
                             <motion.span

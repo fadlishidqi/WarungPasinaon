@@ -1,5 +1,4 @@
 <?php
-// app/Http/Controllers/KegiatanController.php
 
 namespace App\Http\Controllers;
 
@@ -16,7 +15,20 @@ class KegiatanController extends Controller
         $kegiatan = Kegiatan::published()
             ->byCategory($category)
             ->orderBy('date', 'desc')
-            ->get();
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'title' => $item->title,
+                    'slug' => $item->slug, // Tambahkan slug
+                    'description' => $item->description,
+                    'image' => $item->image ? asset('storage/' . $item->image) : null,
+                    'category' => $item->category,
+                    'date' => $item->date->format('Y-m-d'),
+                    'formatted_date' => $item->date->format('d M Y'),
+                    'status' => $item->status,
+                ];
+            });
 
         // Get counts for each category
         $categoryCounts = [
@@ -35,7 +47,8 @@ class KegiatanController extends Controller
 
     public function show(Kegiatan $kegiatan)
     {
-        if ($kegiatan->status !== 'published') {
+        // Pastikan kegiatan published dan tidak soft deleted
+        if ($kegiatan->status !== 'published' || $kegiatan->trashed()) {
             abort(404);
         }
 
@@ -44,10 +57,33 @@ class KegiatanController extends Controller
             ->where('id', '!=', $kegiatan->id)
             ->orderBy('date', 'desc')
             ->take(3)
-            ->get();
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'title' => $item->title,
+                    'slug' => $item->slug,
+                    'description' => $item->description,
+                    'image' => $item->image ? asset('storage/' . $item->image) : null,
+                    'category' => $item->category,
+                    'formatted_date' => $item->date->format('d M Y'),
+                ];
+            });
 
         return Inertia::render('Kegiatan/Show', [
-            'kegiatan' => $kegiatan,
+            'kegiatan' => [
+                'id' => $kegiatan->id,
+                'title' => $kegiatan->title,
+                'slug' => $kegiatan->slug,
+                'description' => $kegiatan->description,
+                'content' => $kegiatan->content,
+                'image' => $kegiatan->image ? asset('storage/' . $kegiatan->image) : null,
+                'category' => $kegiatan->category,
+                'date' => $kegiatan->date->format('Y-m-d'),
+                'formatted_date' => $kegiatan->date->format('d M Y'),
+                'status' => $kegiatan->status,
+                'tags' => $kegiatan->tags,
+            ],
             'related' => $related
         ]);
     }
