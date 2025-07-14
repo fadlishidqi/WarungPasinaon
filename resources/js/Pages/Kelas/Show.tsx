@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Head, Link, useForm } from '@inertiajs/react';
 import CompanyLayout from '@/Components/CompanyLayout';
+import GeminiChatBot from '@/Components/GeminiChatBot';
 
 interface Kelas {
     id: number;
@@ -397,6 +398,7 @@ const Show: React.FC<Props> = ({ kelas, flash }) => {
                   </div>
               </div>
           )}
+            <GeminiChatBot />
       </CompanyLayout>
   );
 };

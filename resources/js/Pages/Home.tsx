@@ -5,6 +5,7 @@ import Navbar from '@/Components/Navbar';
 import Footer from '@/Components/Footer';
 import LoadingImage from '@/Components/LoadingImage';
 import { motion, AnimatePresence } from 'framer-motion';
+import GeminiChatBot from '@/Components/GeminiChatBot';
 
 export default function Home({ auth }: PageProps) {
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -764,6 +765,7 @@ export default function Home({ auth }: PageProps) {
                </section>
 
                <Footer />
+               <GeminiChatBot/>
            </div>
        </>
    );

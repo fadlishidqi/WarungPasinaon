@@ -4,6 +4,7 @@ import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { BookFilters } from '@/types';
 import Navbar from '@/Components/Navbar';
 import Footer from '@/Components/Footer';
+import GeminiChatBot from '@/Components/GeminiChatBot';
 
 // Interface yang aman untuk data pagination
 interface SafePaginatedBooks {
@@ -719,6 +720,7 @@ const BooksIndex: React.FC<BooksIndexProps> = ({ books, categories, filters }) =
                </div>
            </div>
            
+           <GeminiChatBot/>
            <Footer />
        </>
    );

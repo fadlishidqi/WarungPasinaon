@@ -3,6 +3,7 @@ import { Head, Link } from "@inertiajs/react";
 import { Book } from "@/types";
 import Navbar from "@/Components/Navbar";
 import Footer from "@/Components/Footer";
+import GeminiChatBot from '@/Components/GeminiChatBot';
 
 interface BookShowProps {
     book: Book;
@@ -224,7 +225,8 @@ const BookShow: React.FC<BookShowProps> = ({ book }) => {
                     </div>
                 </div>
             </div>
-
+            
+            <GeminiChatBot/>                           
             <Footer />
         </>
     );

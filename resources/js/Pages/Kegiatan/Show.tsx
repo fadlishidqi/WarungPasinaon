@@ -4,6 +4,7 @@ import { PageProps } from '@/types';
 import Navbar from '@/Components/Navbar';
 import Footer from '@/Components/Footer';
 import { marked } from 'marked';
+import GeminiChatBot from '@/Components/GeminiChatBot';
 
 interface Kegiatan {
     id: number;
@@ -166,7 +167,7 @@ export default function KegiatanShow({ auth, kegiatan, related }: Props) {
                        </div>
                    </section>
                )}
-
+                <GeminiChatBot />
                <Footer />
            </div>
        </>
