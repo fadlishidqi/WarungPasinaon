@@ -349,7 +349,7 @@ export default function Home({ auth }: PageProps) {
                                             Warung Pasinaon adalah sebuah Taman Bacaan Masyarakat (TBM) yang berdiri di Tegalsari RT 05/08, Bergaslor, Kec. Bergas, Kabupaten Semarang, Jawa Tengah. Didirikan sejak tahun 2007 oleh Ibu Tirta Nursari, Warung Pasinaon hadir sebagai ruang belajar gratis yang terbuka bagi siapa saja, khususnya anak-anak. 
                                         </motion.p>
                                         <motion.p variants={fadeInUp}>
-                                            Nama "Pasinaon" sendiri berasal dari bahasa Jawa yang berarti "pembelajaran", mencerminkan semangat lokalitas dan kesederhanaan dalam membangun budaya literasi dari rumah sendiri.
+                                            Pasinaon berasal dari bahasa jawa yaitu yang berarti belajar, jadi warung pasinaon adalah tempat pembelajaran
                                         </motion.p>
                                         <motion.p variants={fadeInUp}>
                                             Kegiatan yang ditawarkan sangat beragam, mulai dari kelas menulis, pelatihan desain dan videografi, literasi digital, hingga pelatihan baca-tulis bagi lansia. Dengan semangat gotong royong dan dukungan dari berbagai pihak, Warung Pasinaon menjadi simbol perubahan sosial berbasis komunitas, tempat di mana belajar menjadi menyenangkan.
@@ -629,7 +629,7 @@ export default function Home({ auth }: PageProps) {
                                        <div>
                                            <h4 className="font-bold text-gray-900 mb-2">Akses Transportasi</h4>
                                            <p className="text-gray-600 leading-relaxed text-sm">
-                                               Mudah dijangkau dengan kendaraan pribadi atau transportasi umum. Tersedia area parkir yang memadai.
+                                               Mudah dijangkau dengan kendaraan pribadi atau transportasi umum. Tersedia area parkir yang memadai. Terletak 90 meter dari jalan raya.
                                            </p>
                                        </div>
                                    </div>

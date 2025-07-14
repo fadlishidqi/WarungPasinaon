@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class BookController extends Controller
@@ -97,19 +99,37 @@ class BookController extends Controller
 
     public function download(Book $book)
     {
-        if ($book->status !== 'published') {
-            abort(404);
+        Log::info('--- MEMULAI PROSES DOWNLOAD ---');
+        Log::info('Buku yang akan di-download: ' . $book->title . ' (ID: ' . $book->id . ')');
+
+        $filePath = $book->pdf_file;
+        Log::info('Path file dari database (kolom pdf_file): ' . $filePath);
+
+        if (!$filePath) {
+            Log::error('GAGAL: Path file di database kosong.');
+            abort(404, 'Path file tidak terdaftar di database.');
         }
 
-        // Increment download count
-        $book->incrementDownloadCount();
+        $fileExists = Storage::disk('public')->exists($filePath);
+        Log::info('Apakah file ada di storage/app/public? ' . ($fileExists ? 'YA' : 'TIDAK'));
 
-        $filePath = storage_path('app/public/' . $book->pdf_file);
-        
-        if (!file_exists($filePath)) {
-            abort(404, 'File tidak ditemukan');
+        if (!$fileExists) {
+            $expectedPath = storage_path('app/public/' . $filePath);
+            Log::error('GAGAL: File tidak ditemukan di lokasi yang diharapkan: ' . $expectedPath);
+            abort(404, 'File fisik tidak ditemukan di server.');
         }
 
-        return response()->download($filePath, $book->title . '.pdf');
+        $fullPath = Storage::disk('public')->path($filePath);
+        Log::info('Path absolut file yang akan di-download: ' . $fullPath);
+
+        try {
+            $book->increment('download_count');
+            Log::info('Jumlah download berhasil di-increment.');
+        } catch (\Exception $e) {
+            Log::error('GAGAL increment download count: ' . $e->getMessage());
+        }
+
+        Log::info('--- MENGIRIM FILE KE BROWSER ---');
+        return response()->download($fullPath, $book->slug . '.pdf');
     }
 }

@@ -150,7 +150,7 @@ const BooksIndex: React.FC<BooksIndexProps> = ({ books, categories, filters }) =
             <div className="min-h-screen bg-gray-50">
                 {/* Hero Section - Matching homepage style */}
                 <section className="relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-pink-50 via-purple-50 via-blue-50 to-green-50"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-pink-50 via-blue-50 to-green-50"></div>
                     
                     {/* Animated Background Elements */}
                     <motion.div 
