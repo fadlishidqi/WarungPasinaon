@@ -13,19 +13,39 @@ export default function Home({ auth }: PageProps) {
     const documentationImages = [
         {
             id: 1,
-            image: "https://firebasestorage.googleapis.com/v0/b/seputipy.appspot.com/o/covers%2FAssetPasinaon2.png?alt=media"
+            image: "https://firebasestorage.googleapis.com/v0/b/seputipy.appspot.com/o/covers%2FAssetCarausel4.jpg?alt=media"
         },
         {
             id: 2,
-            image: "https://firebasestorage.googleapis.com/v0/b/seputipy.appspot.com/o/covers%2FAssetPasinaon2.png?alt=media"
+            image: "https://firebasestorage.googleapis.com/v0/b/seputipy.appspot.com/o/covers%2FAssetCarausel2.jpg?alt=media"
         },
         {
             id: 3,
-            image: "https://firebasestorage.googleapis.com/v0/b/seputipy.appspot.com/o/covers%2FAssetPasinaon2.png?alt=media"
+            image: "https://firebasestorage.googleapis.com/v0/b/seputipy.appspot.com/o/covers%2FAssetCarausel3.jpg?alt=media"
         },
         {
             id: 4,
-            image: "https://firebasestorage.googleapis.com/v0/b/seputipy.appspot.com/o/covers%2FAssetPasinaon2.png?alt=media",
+            image: "https://firebasestorage.googleapis.com/v0/b/seputipy.appspot.com/o/covers%2FAssetCarausel6.jpg?alt=media",
+        },
+        {
+            id: 5,
+            image: "https://firebasestorage.googleapis.com/v0/b/seputipy.appspot.com/o/covers%2FAssetCarausel5.jpg?alt=media",
+        },
+        {
+            id: 6,
+            image: "https://firebasestorage.googleapis.com/v0/b/seputipy.appspot.com/o/covers%2FAssetCarausel7.jpg?alt=media",
+        },
+        {
+            id: 7,
+            image: "https://firebasestorage.googleapis.com/v0/b/seputipy.appspot.com/o/covers%2FAssetCarausel9.jpeg?alt=media",
+        },
+        {
+            id: 8,
+            image: "https://firebasestorage.googleapis.com/v0/b/seputipy.appspot.com/o/covers%2FAssetCarausel10.jpeg?alt=media",
+        },
+        {
+            id: 9,
+            image: "https://firebasestorage.googleapis.com/v0/b/seputipy.appspot.com/o/covers%2FAssetCarausel11.jpeg?alt=media",
         }
     ];
 
@@ -37,7 +57,7 @@ export default function Home({ auth }: PageProps) {
                 setCurrentSlide((prevSlide) => 
                     prevSlide === documentationImages.length - 1 ? 0 : prevSlide + 1
                 );
-            }, 2500);
+            }, 2000);
 
             return () => clearInterval(timer);
         }
@@ -185,24 +205,24 @@ export default function Home({ auth }: PageProps) {
                                 </motion.div>
 
                                 {/* CTA Buttons */}
-                                <motion.div 
+                                <motion.div
                                     className="flex flex-col sm:flex-row gap-4 pt-4"
                                     variants={staggerChildren}
                                     initial="initial"
                                     animate="animate"
                                 >
                                     <motion.div variants={fadeInUp}>
-                                        <Link 
+                                        <Link
                                             href="/buku-digital"
-                                            className="bg-gradient-to-r from-pink-400 to-red-400 text-white px-8 py-4 rounded-2xl font-semibold text-lg hover:from-pink-500 hover:to-red-500 transition duration-300 transform hover:scale-105 shadow-lg text-center inline-block"
+                                            className="bg-gradient-to-r from-pink-400 to-red-400 text-white px-8 py-4 rounded-2xl font-semibold text-lg hover:from-pink-500 hover:to-red-500 transition duration-300 transform hover:scale-105 shadow-lg text-center inline-block w-full sm:w-auto"
                                         >
                                             Mulai Belajar
                                         </Link>
                                     </motion.div>
-                                    <motion.button 
+                                    <motion.button
                                         variants={fadeInUp}
                                         onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
-                                        className="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-2xl font-semibold text-lg hover:border-gray-400 hover:bg-gray-50 transition duration-300"
+                                        className="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-2xl font-semibold text-lg hover:border-gray-400 hover:bg-gray-50 transition duration-300 w-full sm:w-auto"
                                         whileHover={{ scale: 1.02 }}
                                         whileTap={{ scale: 0.98 }}
                                     >
@@ -225,7 +245,7 @@ export default function Home({ auth }: PageProps) {
                                     transition={{ type: "spring", stiffness: 300 }}
                                 >
                                     <LoadingImage 
-                                        src="https://firebasestorage.googleapis.com/v0/b/seputipy.appspot.com/o/covers%2FAssetPasinaon2.png?alt=media"
+                                        src="https://firebasestorage.googleapis.com/v0/b/seputipy.appspot.com/o/covers%2FAssetCarausel1.jpg?alt=media"
                                         className="w-full h-64 object-cover"
                                         alt='Warung Pasinaon'
                                     />
@@ -245,7 +265,7 @@ export default function Home({ auth }: PageProps) {
                                         transition={{ type: "spring", stiffness: 300 }}
                                     >
                                         <LoadingImage 
-                                            src="https://firebasestorage.googleapis.com/v0/b/seputipy.appspot.com/o/covers%2FAssetPasinaon1.png?alt=media" 
+                                            src="https://firebasestorage.googleapis.com/v0/b/seputipy.appspot.com/o/covers%2FAssetPasinaon2.png?alt=media" 
                                             alt="Diskusi Kelompok"
                                             className="w-full h-40 object-cover"
                                         />
@@ -257,7 +277,7 @@ export default function Home({ auth }: PageProps) {
                                         transition={{ type: "spring", stiffness: 300 }}
                                     >
                                         <LoadingImage 
-                                            src="https://firebasestorage.googleapis.com/v0/b/seputipy.appspot.com/o/covers%2FAssetPasinaon3.png?alt=media" 
+                                            src="https://firebasestorage.googleapis.com/v0/b/seputipy.appspot.com/o/covers%2FAssetCarausel8.jpg?alt=media" 
                                             alt="Digital Learning"
                                             className="w-full h-40 object-cover"
                                         />
@@ -629,7 +649,7 @@ export default function Home({ auth }: PageProps) {
                                        <div>
                                            <h4 className="font-bold text-gray-900 mb-2">Akses Transportasi</h4>
                                            <p className="text-gray-600 leading-relaxed text-sm">
-                                               Mudah dijangkau dengan kendaraan pribadi atau transportasi umum. Tersedia area parkir yang memadai. Terletak 90 meter dari jalan raya.
+                                               Mudah dijangkau dengan kendaraan pribadi atau transportasi umum. Terletak 90 meter dari jalan raya.
                                            </p>
                                        </div>
                                    </div>
