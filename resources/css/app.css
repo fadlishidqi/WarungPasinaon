@@ -353,4 +353,75 @@
     .content-area blockquote {
         padding-left: 1rem;
     }
+
+    /* Custom Tailwind animations untuk performance */
+    @layer utilities {
+        /* Fade in up animation */
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        /* Animation delays */
+        .animation-delay-100 { animation-delay: 0.1s; }
+        .animation-delay-200 { animation-delay: 0.2s; }
+        .animation-delay-300 { animation-delay: 0.3s; }
+        .animation-delay-400 { animation-delay: 0.4s; }
+        .animation-delay-500 { animation-delay: 0.5s; }
+        .animation-delay-600 { animation-delay: 0.6s; }
+        .animation-delay-700 { animation-delay: 0.7s; }
+        .animation-delay-800 { animation-delay: 0.8s; }
+
+        /* Performance optimized animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Disable animations on mobile for performance */
+        @media (max-width: 768px) {
+            .animate-fade-in-up {
+                animation: none !important;
+                opacity: 1 !important;
+                transform: none !important;
+            }
+        }
+
+        /* Respect reduced motion preference */
+        @media (prefers-reduced-motion: reduce) {
+            .animate-fade-in-up {
+                animation: none !important;
+                opacity: 1 !important;
+                transform: none !important;
+            }
+            
+            .transition-all,
+            .transition-transform,
+            .transition-opacity {
+                transition: none !important;
+            }
+            
+            .hover\:scale-105:hover,
+            .hover\:scale-110:hover {
+                transform: none !important;
+            }
+        }
+    }
+
+    /* Optimize for low-end devices */
+    .low-end-device .animate-fade-in-up,
+    .low-end-device .transition-all,
+    .low-end-device .transition-transform {
+        animation: none !important;
+        transition: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
 }

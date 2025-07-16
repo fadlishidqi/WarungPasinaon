@@ -44,5 +44,3 @@ Route::middleware('auth')->group(function () {
 Route::get('/daftar-hadir', [LibraryAttendanceController::class, 'index'])->name('library.attendance');
 Route::post('/daftar-hadir', [LibraryAttendanceController::class, 'store'])->name('library.attendance.store');
 Route::get('/daftar-hadir/stats', [LibraryAttendanceController::class, 'getStats'])->name('library.attendance.stats');
-
-require __DIR__.'/auth.php';
