@@ -185,7 +185,26 @@ const Footer = () => {
                 {/* Bottom Section - Gap diperkecil */}
                 <div className="mt-8 pt-6 border-t border-gray-200">
                     <p className="text-gray-600 text-sm">
-                        © 2024 Warung Pasinaon. All rights reserved.
+                        © 2025 Warung Pasinaon. All rights reserved.
+                    </p>
+                    <p className="text-gray-600 text-sm mt-1">
+                        <a
+                            href="https://www.instagram.com/portofolio.kiki/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-gray-600 hover:text-blue-800 hover:underline transition-colors"
+                        >
+                            Build with ♡ by FadliShidqi 
+                        </a>
+                        <a> & </a>
+                        <a
+                            href="https://github.com/NaufalYogaPratama"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-gray-600 hover:text-blue-800 hover:underline transition-colors"
+                        >
+                             NaufalYoga
+                        </a>
                     </p>
                 </div>
             </div>

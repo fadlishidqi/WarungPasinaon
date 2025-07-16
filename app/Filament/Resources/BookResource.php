@@ -130,7 +130,7 @@ class BookResource extends Resource
                             ->disk('public')
                             ->acceptedFileTypes(['application/pdf'])
                             ->directory('books/pdfs')
-                            ->maxSize(50480)
+                            ->maxSize(20480)
                             ->required()
                             ->uploadingMessage('Mengupload file PDF...')
                             ->uploadProgressIndicatorPosition('left')
