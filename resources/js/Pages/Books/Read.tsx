@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Head, Link } from "@inertiajs/react";
 import { Book } from "@/types";
 import FlipBook from "@/Components/FlipBook";
+import GeminiChatBot from '@/Components/GeminiChatBot';
 
 interface BookReadProps {
     book: Book;
@@ -212,6 +213,7 @@ const BookRead: React.FC<BookReadProps> = ({ book }) => {
                     </div>
                 )}
             </div>
+            <GeminiChatBot/>
         </>
     );
 };

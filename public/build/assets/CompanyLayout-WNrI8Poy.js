@@ -1,0 +1,1 @@
+import{j as s}from"./app-Cj3g9NB_.js";import{N as a}from"./Navbar-BMhVPWxm.js";import{F as m}from"./Footer-eutFMBZL.js";const t=({children:r})=>s.jsxs("div",{className:"min-h-screen bg-gray-50",children:[s.jsx(a,{}),s.jsx("main",{className:"min-h-screen",children:r}),s.jsx(m,{})]});export{t as C};

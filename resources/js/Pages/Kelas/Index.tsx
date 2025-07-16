@@ -2,6 +2,7 @@ import React from 'react';
 import { Head, Link } from '@inertiajs/react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import CompanyLayout from '@/Components/CompanyLayout';
+import GeminiChatBot from '@/Components/GeminiChatBot';
 
 interface Kelas {
     id: number;
@@ -383,6 +384,7 @@ const Index: React.FC<Props> = ({ kelas }) => {
                     </div>
                 </section>
             </div>
+            <GeminiChatBot />
         </CompanyLayout>
     );
 };

@@ -30,6 +30,7 @@
         "vite": "^6.2.4"
     },
     "dependencies": {
+        "@google/generative-ai": "^0.24.1",
         "framer-motion": "^12.22.0",
         "marked": "^16.0.0",
         "pdfjs-dist": "^5.3.93",

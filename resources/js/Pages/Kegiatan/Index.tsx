@@ -3,6 +3,7 @@ import { Head, Link, router } from "@inertiajs/react"
 import type { PageProps } from "@/types"
 import CompanyLayout from "@/Components/CompanyLayout"
 import { motion, AnimatePresence, Variants } from "framer-motion"
+import GeminiChatBot from '@/Components/GeminiChatBot';
 
 interface Kegiatan {
   id: number
@@ -352,6 +353,7 @@ export default function KegiatanIndex({ auth, kegiatan, currentCategory, categor
           </div>
         </section>
       </div>
+      <GeminiChatBot />
     </CompanyLayout>
   )
 }
