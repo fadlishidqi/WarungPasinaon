@@ -14,11 +14,11 @@ export default function Home({ auth }: PageProps) {
     const documentationImages = [
         {
             id: 1,
-            image: "https://firebasestorage.googleapis.com/v0/b/seputipy.appspot.com/o/covers%2FAssetCarausel4.jpg?alt=media",
+            image: "https://firebasestorage.googleapis.com/v0/b/seputipy.appspot.com/o/covers%2FAssetCarausel2.jpg?alt=media",
         },
         {
             id: 2,
-            image: "https://firebasestorage.googleapis.com/v0/b/seputipy.appspot.com/o/covers%2FAssetCarausel2.jpg?alt=media",
+            image: "https://firebasestorage.googleapis.com/v0/b/seputipy.appspot.com/o/covers%2FAssetCarausel4.jpg?alt=media",
         },
         {
             id: 3,

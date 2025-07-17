@@ -1,5 +1,4 @@
 <?php
-// app/Http/Controllers/KelasController.php
 namespace App\Http\Controllers;
 
 use App\Models\Kelas;
@@ -180,14 +179,8 @@ class KelasController extends Controller
             \Log::info('=== REGISTRATION COMPLETED ===');
 
             // Return dengan data grup untuk modal
-            return back()->with([
-                'success' => 'Pendaftaran berhasil! Notifikasi WhatsApp akan segera dikirim ke nomor Anda.',
-                'show_group_modal' => true,
-                'group_link' => $kelas->grup_wa,
-                'group_name' => "Grup {$kelas->nama}",
-                'class_name' => $kelas->nama,
-                'whatsapp_enabled' => config('whatsapp.enabled')
-            ]);
+            return redirect()->route('kelas.show', $id)
+                ->with('success', 'Notifikasi WhatsApp akan segera dikirim ke nomor Anda.');
 
         } catch (\Exception $e) {
             \Log::error('=== REGISTRATION FAILED ===', [

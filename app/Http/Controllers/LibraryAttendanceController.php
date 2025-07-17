@@ -1,5 +1,4 @@
 <?php
-// app/Http/Controllers/LibraryAttendanceController.php
 namespace App\Http\Controllers;
 
 use App\Models\LibraryAttendance;

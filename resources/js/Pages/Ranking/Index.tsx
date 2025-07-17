@@ -1,9 +1,9 @@
-// resources/js/Pages/Ranking/Index.tsx
 import React from 'react';
 import { Head } from '@inertiajs/react';
 import { motion } from 'framer-motion';
 import LoadingImage from '@/Components/LoadingImage';
 import CompanyLayout from '@/Components/CompanyLayout';
+import GeminiChatBot from '@/Components/GeminiChatBot';
 
 interface RankingItem {
     rank: number;
@@ -305,16 +305,6 @@ const Index: React.FC<Props> = ({ rankings, stats }) => {
                                                             <span>📚</span>
                                                             <span>{item.total_visits} kunjungan</span>
                                                         </span>
-                                                        <span className="flex items-center gap-1">
-                                                            <span>📅</span>
-                                                            <span className="truncate">
-                                                                {new Date(item.last_visit).toLocaleDateString('id-ID', {
-                                                                    day: 'numeric',
-                                                                    month: 'short',
-                                                                    year: window.innerWidth < 640 ? undefined : 'numeric'
-                                                                })}
-                                                            </span>
-                                                        </span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -369,6 +359,7 @@ const Index: React.FC<Props> = ({ rankings, stats }) => {
                     </motion.div>
                 </div>
             </div>
+            <GeminiChatBot />
         </CompanyLayout>
     );
 };

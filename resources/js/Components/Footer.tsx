@@ -104,15 +104,15 @@ const Footer = () => {
                             <ul className="space-y-3">
                                 <li className="text-gray-600 text-sm">
                                     <span className="font-medium">Email:</span>{" "}
-                                    info@warungpasinaon.com
+                                    warungpasinaon07@gmail.com
                                 </li>
                                 <li className="text-gray-600 text-sm">
                                     <span className="font-medium">Phone:</span>{" "}
-                                    +62 123 456 789
+                                    0812 2514 4100
                                 </li>
                                 <li className="text-gray-600 text-sm">
                                     <span className="font-medium">Alamat:</span>{" "}
-                                    Ungaran, Central Java
+                                    Bergas Lor, Bergas, Semarang
                                 </li>
                             </ul>
 
